@@ -1,0 +1,65 @@
+/* FONTS */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;0,900;1,500&family=Pacifico&display=swap');
+
+
+
+/* Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+}
+
+.main {
+    display: flex;
+    
+
+}
+.sidebar {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    background-color: #008080; 
+    color: white;
+    width: 35vw;
+    height: 100vh;
+    padding: 1rem 2rem;
+    border-radius: 0 1rem 1rem 0;
+}
+
+.top {
+    font-family: 'Montserrat', sans-serif;
+    /* font-weight: 400; */
+}
+
+.top > :nth-child(1) {
+    font-size: 3rem;
+    /* font-weight: 700; */
+    margin-bottom: 1rem;
+}
+
+.top > :nth-child(2) {
+    font-size: 1rem;
+}
+
+.btm {
+    font-family: 'Pacifico', cursive;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.main-form {
+    background-color: red;
+    padding: 1rem;
+    width: 45rem;
+    height: 45rem;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.main-form > img {
+    width: fit-content;
+    height: fit-content;
+}
