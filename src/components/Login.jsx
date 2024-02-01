@@ -1,7 +1,7 @@
 import React from 'react'
 import pic from "./assets/logo.svg"
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
+// import Box from '@mui/material/Box';
+// import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
@@ -16,11 +16,13 @@ import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import MarkunreadIcon from '@mui/icons-material/Markunread';
+import Divider from '@mui/material/Divider';
 
 
 // import { Typography } from '@mui/material';
 
 import "./Style/login.css"
+import GoogleIcon from "./assets/google.svg";
 
 
 const SubmitButton = styled(Button)({
@@ -39,14 +41,32 @@ const SubmitButton = styled(Button)({
 const FormStack = styled(Stack)({
     margin:'5rem auto',
     width: '35ch',
-})
+});
+
+
 
 
 function Login() {
     const [showPassword, setShowPassword] = React.useState(false);
     const [action, setAction] = React.useState("Sign Up");
+    const [email, setEmail] = React.useState()
+    const [password, setPassword] = React.useState()
+    const [emailError, setEmailError] = React.useState(false)
+    const [passwordError, setPasswordError] = React.useState(false)
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setEmailError(false)
+    setPasswordError(false)
+
+    if (email === '') {
+        setEmailError(true)
+    }
+    if (password === '') {
+        setPasswordError(true)
+    }
+}
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -65,10 +85,10 @@ function Login() {
         </div>
         <div className="main-form">
             <img src={pic} alt="Logo" />
-            <form action="">
+            <form action="" onSubmit= {handleSubmit}>
                 <FormStack spacing={2}>
-                    <FormControl>
-                        <InputLabel htmlfor="outlined-adornment-name">Your Name</InputLabel>
+                    {action === 'Sign Up' ? <FormControl>
+                        <InputLabel htmlFor="outlined-adornment-name">Your Name</InputLabel>
                         <OutlinedInput
                             id="outlined-adornment-name"
                             // value={values.amount}
@@ -79,11 +99,17 @@ function Login() {
                             </InputAdornment>}
                             label="Name"
                         />
-                    </FormControl>
+                    </FormControl> : null}
+                    
                 <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
                     <InputLabel htmlFor="outlined-adornment-email">College email</InputLabel>
                     <OutlinedInput
                         id="outlined-adornment-email"
+                        type='email'
+                        onChange={e => setEmail(e.target.value)}
+                        
+                        value={email}
+                        error={emailError}
                         // value={values.amount}
                         // onChange={handleChange}
                         endAdornment={
@@ -97,6 +123,10 @@ function Login() {
                     <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                     <OutlinedInput
                         id="outlined-adornment-password"
+                        
+                        onChange={e => setPassword(e.target.value)}
+                        value={password}
+                        error={passwordError}
                         type={showPassword ? 'text' : 'password'}
                         endAdornment={
                         <InputAdornment position="end">
@@ -113,7 +143,7 @@ function Login() {
                         label="Password"
                     />
                 </FormControl>
-                <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
+                {action==='Sign Up' ? <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
                     <InputLabel htmlFor="outlined-adornment-password">Retype your password</InputLabel>
                     <OutlinedInput
                         id="outlined-adornment-password"
@@ -132,19 +162,31 @@ function Login() {
                         }
                         label="Password"
                     />
-                </FormControl>
-                    <SubmitButton variant='contained'>{action}</SubmitButton>
-                {action==='Sign Up' ? <Typography variant='caption' display="block" textAlign="center">Already have an account? <Link href="#" underline="hover">
-                        {'Sign In'}</Link></Typography> : <Typography variant='caption' display="block" textAlign="center">Don't have an account yet? <Link href="#" underline="hover">
+                </FormControl> : null}
+                
+                    <SubmitButton variant='contained' type='submit'>{action}</SubmitButton>
+                    </FormStack>
+                    </form>
+                {action==='Sign Up' ? <Typography variant='caption' display="block" textAlign="center">Already have an account? <Link href="#" underline="hover" onClick={()=>{setAction("Sign In")}}>
+                        {'Sign In'}</Link></Typography> : <Typography variant='caption' display="block" textAlign="center">Don't have an account yet? <Link href="#" underline="hover" onClick={()=> {setAction("Sign Up")}}>
                         {'Sign Up Now!'}
                     </Link></Typography>}
-
-
-
                         
-                </FormStack>
-                
-            </form>
+                        <Divider>OR</Divider>
+
+
+                        <Typography variant='caption' display='block' textAlign='center'>
+                            You can {action} using:
+                        </Typography>
+                        <FormControl>
+                        <Link href="#" margin="0 auto" >
+                            <IconButton aria-label='Google'  >
+                                <img src={GoogleIcon} alt="Google" className='icon'/>
+                            </IconButton>
+                        </Link>
+                        </FormControl>
+               
+            
         </div>
     </div>
     
