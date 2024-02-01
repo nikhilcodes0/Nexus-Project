@@ -50,16 +50,18 @@
 }
 
 .main-form {
-    background-color: red;
+    /* background-color: red; */
     padding: 1rem;
     width: 45rem;
-    height: 45rem;
+    /* height: 45rem; */
     margin: auto;
     display: flex;
     justify-content: center;
+    flex-direction: column;
 }
 
 .main-form > img {
     width: fit-content;
     height: fit-content;
+    margin: -1rem auto 1rem auto;
 }
