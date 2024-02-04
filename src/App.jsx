@@ -2,7 +2,8 @@
 import React from "react";
 import "./App.css"
 
-import Login from "./components/Login"
+import Login from "./pages/Login"
+import Sidebar from "./components/Sidebar";
 
 
 
@@ -13,7 +14,8 @@ function App() {
   return (
     <div>
     
-    <Login />
+    {/* <Login /> */}
+    <Sidebar />
     </div>
    
   )
