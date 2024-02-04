@@ -1,7 +1,7 @@
 import React from 'react'
 import pic from "./assets/logo.svg"
 // import Box from '@mui/material/Box';
-// import TextField from '@mui/material/TextField';
+import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
@@ -17,6 +17,8 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import MarkunreadIcon from '@mui/icons-material/Markunread';
 import Divider from '@mui/material/Divider';
+
+import {useForm} from 'react-hook-form';
 
 
 // import { Typography } from '@mui/material';
@@ -47,26 +49,27 @@ const FormStack = styled(Stack)({
 
 
 function Login() {
+    const {register, handleSubmit, control, errors} = useForm();
     const [showPassword, setShowPassword] = React.useState(false);
-    const [action, setAction] = React.useState("Sign Up");
+    const [action, setAction] = React.useState("Sign In");
     const [email, setEmail] = React.useState()
     const [password, setPassword] = React.useState()
     const [emailError, setEmailError] = React.useState(false)
     const [passwordError, setPasswordError] = React.useState(false)
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setEmailError(false)
-    setPasswordError(false)
+//   const handleSubmit = (event) => {
+//     event.preventDefault();
+//     setEmailError(false)
+//     setPasswordError(false)
 
-    if (email === '') {
-        setEmailError(true)
-    }
-    if (password === '') {
-        setPasswordError(true)
-    }
-}
+//     if (email === '') {
+//         setEmailError(true)
+//     }
+//     if (password === '') {
+//         setPasswordError(true)
+//     }
+// }
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -87,6 +90,15 @@ function Login() {
             <img src={pic} alt="Logo" />
             <form action="" onSubmit= {handleSubmit}>
                 <FormStack spacing={2}>
+                    <TextField 
+                    placeholder="Enter your name"
+                    label="Name"
+                    variant='outlined'
+                    fullWidth
+                    
+                    >
+
+                    </TextField>
                     {action === 'Sign Up' ? <FormControl>
                         <InputLabel htmlFor="outlined-adornment-name">Your Name</InputLabel>
                         <OutlinedInput
@@ -102,14 +114,14 @@ function Login() {
                     </FormControl> : null}
                     
                 <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
-                    <InputLabel htmlFor="outlined-adornment-email">College email</InputLabel>
+                    <InputLabel htmlFor="outlined-adornment-email" >College email</InputLabel>
                     <OutlinedInput
                         id="outlined-adornment-email"
                         type='email'
                         onChange={e => setEmail(e.target.value)}
                         
                         value={email}
-                        error={emailError}
+                        {...(emailError ? {error: true} : {})}
                         // value={values.amount}
                         // onChange={handleChange}
                         endAdornment={
