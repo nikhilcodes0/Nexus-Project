@@ -1,5 +1,5 @@
 import React from 'react'
-import pic from "./assets/logo.svg"
+import pic from "../components/assets/logo.svg"
 // import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
@@ -23,8 +23,8 @@ import {useForm} from 'react-hook-form';
 
 // import { Typography } from '@mui/material';
 
-import "./Style/login.css"
-import GoogleIcon from "./assets/google.svg";
+import "../Style/login.css"
+import GoogleIcon from "../components/assets/google.svg";
 
 
 const SubmitButton = styled(Button)({
