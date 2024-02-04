@@ -7,6 +7,7 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
+import EmailIcon from '@mui/icons-material/Email';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -15,7 +16,6 @@ import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
-import MarkunreadIcon from '@mui/icons-material/Markunread';
 import Divider from '@mui/material/Divider';
 
 import {useForm} from 'react-hook-form';
@@ -49,27 +49,18 @@ const FormStack = styled(Stack)({
 
 
 function Login() {
-    const {register, handleSubmit, control, errors} = useForm();
+    const {register, handleSubmit, control, formState: { errors }} = useForm();
     const [showPassword, setShowPassword] = React.useState(false);
     const [action, setAction] = React.useState("Sign In");
-    const [email, setEmail] = React.useState()
     const [password, setPassword] = React.useState()
-    const [emailError, setEmailError] = React.useState(false)
-    const [passwordError, setPasswordError] = React.useState(false)
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-//   const handleSubmit = (event) => {
-//     event.preventDefault();
-//     setEmailError(false)
-//     setPasswordError(false)
 
-//     if (email === '') {
-//         setEmailError(true)
-//     }
-//     if (password === '') {
-//         setPasswordError(true)
-//     }
-// }
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const onSubmit = (data) => {
+        console.log(data)
+    }
+    
+  
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -88,57 +79,61 @@ function Login() {
         </div>
         <div className="main-form">
             <img src={pic} alt="Logo" />
-            <form action="" onSubmit= {handleSubmit}>
+            <form onSubmit= {handleSubmit(onSubmit)}>
                 <FormStack spacing={2}>
-                    <TextField 
+                    {action === 'Sign Up' ? <TextField 
                     placeholder="Enter your name"
                     label="Name"
+                    InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <AccountCircle />
+                          </InputAdornment>
+                        ),
+                      }}
                     variant='outlined'
                     fullWidth
+                    name="username"
+                    type="name"
+                    {...register("name", { required: "Please enter your username", })}
+                    error={Boolean(errors.name)}
+                    helperText={errors.name?.message}
                     
                     >
-
-                    </TextField>
-                    {action === 'Sign Up' ? <FormControl>
-                        <InputLabel htmlFor="outlined-adornment-name">Your Name</InputLabel>
-                        <OutlinedInput
-                            id="outlined-adornment-name"
-                            // value={values.amount}
-                            // onChange={handleChange}
-                            endAdornment={
-                            <InputAdornment position="end">
-                                <AccountCircle edge="end" />
-                            </InputAdornment>}
-                            label="Name"
-                        />
-                    </FormControl> : null}
+                    </TextField> : null}
                     
-                <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
-                    <InputLabel htmlFor="outlined-adornment-email" >College email</InputLabel>
-                    <OutlinedInput
-                        id="outlined-adornment-email"
-                        type='email'
-                        onChange={e => setEmail(e.target.value)}
-                        
-                        value={email}
-                        {...(emailError ? {error: true} : {})}
-                        // value={values.amount}
-                        // onChange={handleChange}
-                        endAdornment={
-                        <InputAdornment position="end">
-                            <MarkunreadIcon edge="end" />
-                        </InputAdornment>}
-                        label="Email"
-                    />
-                </FormControl>
+                <TextField
+                placeholder="Enter your college email"
+                label="Email"
+                InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <EmailIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                variant='outlined'
+                fullWidth
+                name="email"
+                type="email"
+                {...register("email", { required: "Please enter your college email", })}
+                error={Boolean(errors.email)}
+                helperText={errors.email?.message}
+                
+                >
+
+                </TextField>
                 <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
                     <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                     <OutlinedInput
                         id="outlined-adornment-password"
-                        
+                        name='Password'
                         onChange={e => setPassword(e.target.value)}
                         value={password}
-                        error={passwordError}
+                        {...register("Password", { required: "Please enter your password", })}
+                        error={Boolean(errors.Password)}
+                        helperText={errors.Password?.message}
+                        placeholder='Type your password'
                         type={showPassword ? 'text' : 'password'}
                         endAdornment={
                         <InputAdornment position="end">
@@ -154,27 +149,7 @@ function Login() {
                         }
                         label="Password"
                     />
-                </FormControl>
-                {action==='Sign Up' ? <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
-                    <InputLabel htmlFor="outlined-adornment-password">Retype your password</InputLabel>
-                    <OutlinedInput
-                        id="outlined-adornment-password"
-                        type={showPassword ? 'text' : 'password'}
-                        endAdornment={
-                        <InputAdornment position="end">
-                            <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                            edge="end"
-                            >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                            </IconButton>
-                        </InputAdornment>
-                        }
-                        label="Password"
-                    />
-                </FormControl> : null}
+                </FormControl >
                 
                     <SubmitButton variant='contained' type='submit'>{action}</SubmitButton>
                     </FormStack>
