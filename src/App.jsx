@@ -2,8 +2,9 @@
 import React from "react";
 import "./App.css"
 
-import Login from "./pages/Login"
-import Sidebar from "./components/Sidebar";
+// import Login from "./pages/Login"
+// import Sidebar from "./components/Sidebar";
+import Homepage from "./pages/Homepage";
 
 
 
@@ -15,7 +16,8 @@ function App() {
     <div>
     
     {/* <Login /> */}
-    <Sidebar />
+    {/* <Sidebar /> */}
+    <Homepage />
     </div>
    
   )
