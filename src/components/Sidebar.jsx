@@ -11,6 +11,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import PersonIcon from '@mui/icons-material/Person';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
+import InfoIcon from '@mui/icons-material/Info';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
@@ -61,6 +63,20 @@ const LiButton = styled(ListItemButton)({
   paddingBottom:'3px',
 });
 
+const LogoutLi = styled(ListItemButton)({
+  border:'2px solid red',
+  display: 'flex',
+  alignItems: 'center',
+  borderRadius: '15px',
+  paddingTop:'3px',
+  paddingBottom:'3px',
+  '&:hover': {
+    backgroundColor: 'rgba(255, 0, 0, 0.7)',
+    
+  },
+
+});
+
 
 
 // Importing local files
@@ -82,7 +98,7 @@ function Sidebar() {
           <img src={logo} alt="Logo" />
         </div>
         <div className="nav-links">
-          <List component="nav" margin='1rem'>
+          <List component="nav" >
             <Li>
               <LiButton 
                 sx={{ ...Listyles               
@@ -94,7 +110,7 @@ function Sidebar() {
                 <ListItemIcon>
                   <SearchIcon />
                 </ListItemIcon>
-                <ListText disableTypography primary={<Typography variant="body2" style={{ color: 'black' , fontWeight: '500', fontSize: '1.35rem', opacity:'60%'}}>Home</Typography>}/>
+                <ListText disableTypography primary={<Typography variant="body2" style={{ color: 'black' , fontWeight: '500', fontSize: '1.35rem', opacity:'70%'}}>Home</Typography>}/>
               </LiButton>
             </Li>
             <Li>
@@ -107,7 +123,7 @@ function Sidebar() {
                 <ListItemIcon>
                   <VisibilityIcon />
                 </ListItemIcon>
-                <ListText disableTypography primary={<Typography variant="body2" style={{ color: 'black' , fontWeight: 'normal', fontSize: '1.3rem', opacity:'60%'}}>Watching</Typography>}/>
+                <ListText disableTypography primary={<Typography variant="body2" style={{ color: 'black' , fontWeight: 'normal', fontSize: '1.3rem', opacity:'70%'}}>Watching</Typography>}/>
               </LiButton>
             </Li>
             <Li>
@@ -121,7 +137,7 @@ function Sidebar() {
                 <ListItemIcon>
                   <VolunteerActivismIcon />
                 </ListItemIcon>
-                <ListText disableTypography primary={<Typography variant="body2" style={{ color: 'black' , fontWeight: 'normal', fontSize: '1.3rem', opacity:'60%'}}>Donate</Typography>}/>
+                <ListText disableTypography primary={<Typography variant="body2" style={{ color: 'black' , fontWeight: 'normal', fontSize: '1.3rem', opacity:'70%'}}>Donate</Typography>}/>
               </LiButton>
             </Li>
             <Li>
@@ -135,13 +151,32 @@ function Sidebar() {
                 <ListItemIcon>
                   <PersonIcon />
                 </ListItemIcon>
-                <ListText disableTypography primary={<Typography variant="body2" style={{ color: 'black' , fontWeight: 'normal', fontSize: '1.3rem', opacity:'60%'}}>Profile</Typography>}/>
+                <ListText disableTypography primary={<Typography variant="body2" style={{ color: 'black' , fontWeight: 'normal', fontSize: '1.3rem', opacity:'70%'}}>Profile</Typography>}/>
               </LiButton>
             </Li>
           </List>
         </div>
         <div className="footer">
-          
+          <List>
+              <Li>
+                <LiButton>
+                  <ListItemIcon>
+                    <InfoIcon />
+                  </ListItemIcon>
+                  <ListText disableTypography primary={<Typography variant="body2" style={{ color: 'black' , fontWeight: '500', fontSize: '1.35rem', opacity:'70%'}}>About Us</Typography>}/>
+                </LiButton>
+              </Li>
+              <Li>
+                <LogoutLi>
+                  <ListItemIcon>
+                    <LogoutIcon />
+                  </ListItemIcon>
+                  <ListText disableTypography primary={<Typography variant="body2" style={{ color: 'black' , fontWeight: '500', fontSize: '1.35rem', opacity:'70%', '&:hover': {
+                    color:'white',
+                  }}}>Log Out</Typography>}/>
+                </LogoutLi>
+              </Li>
+          </List>
         </div>
       </div>
     </>
