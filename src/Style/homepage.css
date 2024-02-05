@@ -1,0 +1,15 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+.mainhome {
+    margin-left: 20rem;
+}
+
+.header {
+    background-color: rgba(76, 175, 80, 0.4);
+    border-radius: 0px 0px 15px 15px;
+}
