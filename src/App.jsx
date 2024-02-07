@@ -17,7 +17,7 @@ function App() {
     onAuthStateChanged(auth, (user) => {
       // user ? setUser(user) : setUser(null)
       console.log(user)
-      uidState = currentUser.uid
+      // uidState = currentUser.uid
     })
   }, [])
 
