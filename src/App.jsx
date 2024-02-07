@@ -7,7 +7,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth"
 
 function App() {
   const storedUser = JSON.parse(sessionStorage.getItem("user"))
-  const uidState = false
+  let uidState = false
   // Currently logged in user
   const [currentUser, setCurrentUser] = useState(storedUser)
 
