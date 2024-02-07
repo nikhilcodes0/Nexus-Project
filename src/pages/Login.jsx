@@ -19,6 +19,11 @@ import Divider from "@mui/material/Divider"
 import { useForm } from "react-hook-form"
 import "../Style/login.css"
 import GoogleIcon from "../components/assets/google.svg"
+import { firestore } from "../firebase";
+import { addDoc, collection } from "@firebase/firestore";
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase';
 const SubmitButton = styled(Button)({
   backgroundColor: "#008080",
   color: "white",
@@ -49,14 +54,40 @@ function Login() {
   const [action, setAction] = useState("Sign In")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [name,setName] = useState("")
 
   const handleClickShowPassword = () => setShowPassword((show) => !show)
   const onSubmit = async (data) => {
     console.log(data)
     console.log(email)
     console.log(password)
-  }
+    console.log(name)
 
+    if (action === 'Sign In') {
+      try {
+          const userCredential = await signInWithEmailAndPassword(auth,email,password);
+          console.log(userCredential);
+          const user = userCredential.user;
+          localStorage.setItem('token',user.accessToken);
+          localStorage.setItem('user',JSON.stringify(user));
+      }
+      catch (e) {
+          console.error(e);
+      }
+  }
+  else {
+      try {
+          const userCredential = await createUserWithEmailAndPassword(auth,email,password);
+          console.log(userCredential);
+          const user = userCredential.user;
+          localStorage.setItem('token',user.accessToken);
+          localStorage.setItem('user',JSON.stringify(user));
+      }
+      catch (e) {
+          console.error(e);
+        }
+      }
+  }
   const handleMouseDownPassword = (event) => {
     event.preventDefault()
   }
@@ -93,7 +124,9 @@ function Login() {
                 type="name"
                 {...register("name", { required: "Please enter your username" })}
                 error={Boolean(errors.name)}
-                helperText={errors.name?.message}></TextField>
+                helperText={errors.name?.message}
+                onChange={(e) => setName(e.target.value)}
+                value = {name}></TextField>
             ) : null}
 
             <TextField
