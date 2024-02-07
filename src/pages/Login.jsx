@@ -21,6 +21,7 @@ import GoogleIcon from "../components/assets/google.svg"
 import { createUserWithEmailAndPassword } from "firebase/auth"
 import { signInWithEmailAndPassword } from "firebase/auth"
 import { auth } from "../firebase"
+import { useNavigate } from "react-router-dom"
 const SubmitButton = styled(Button)({
   backgroundColor: "#008080",
   color: "white",
@@ -53,37 +54,34 @@ function Login() {
   const [password, setPassword] = useState("")
   const [name, setName] = useState("")
 
-  const onSubmit = async (data) => {
-    console.log(data)
-    console.log(email)
-    console.log(password)
-    console.log(name)
+  // Use for naviation
+  const navigator = useNavigate()
 
-    if (action === "Sign In") {
+  const onSubmit = async (data) => {
+    // Function to sign in the user
+    async function signIn() {
       try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password)
-        console.log(userCredential)
-        const user = userCredential.user
-        sessionStorage.setItem("token", user.accessToken)
-        sessionStorage.setItem("user", JSON.stringify(user))
-      } catch (e) {
-        console.error(e)
-      }
-    } else {
-      try {
-        const userCredential = await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        )
-        console.log(userCredential)
-        const user = userCredential.user
-        sessionStorage.setItem("token", user.accessToken)
-        sessionStorage.setItem("user", JSON.stringify(user))
+        await signInWithEmailAndPassword(auth, email, password)
+        // Navigate to home if the user has a UID
+        if (auth.currentUser.uid) navigator("/")
       } catch (e) {
         console.error(e)
       }
     }
+
+    // Function to facilitate signing up
+    async function signUp() {
+      try {
+        await createUserWithEmailAndPassword(auth, email, password)
+        setAction("Sign In")
+        setPassword("")
+      } catch (e) {
+        console.error(e)
+      }
+    }
+
+    // Call functions according to the selected action
+    action === "Sign In" ? await signIn() : await signUp()
   }
 
   const nameTextField = (
@@ -179,10 +177,7 @@ function Login() {
             {emailTextField}
             {passwordTextField}
 
-            <SubmitButton
-              variant="contained"
-              type="submit"
-              onClick={async () => console.log(email, password)}>
+            <SubmitButton variant="contained" type="submit">
               {action}
             </SubmitButton>
           </FormStack>
