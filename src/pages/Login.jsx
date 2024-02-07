@@ -1,5 +1,4 @@
 import { useState } from "react"
-
 import pic from "../components/assets/logo.svg"
 import TextField from "@mui/material/TextField"
 import Stack from "@mui/material/Stack"
@@ -17,12 +16,9 @@ import { styled } from "@mui/material/styles"
 import Typography from "@mui/material/Typography"
 import Link from "@mui/material/Link"
 import Divider from "@mui/material/Divider"
-
 import { useForm } from "react-hook-form"
-
 import "../Style/login.css"
 import GoogleIcon from "../components/assets/google.svg"
-
 const SubmitButton = styled(Button)({
   backgroundColor: "#008080",
   color: "white",
@@ -55,8 +51,10 @@ function Login() {
   const [password, setPassword] = useState("")
 
   const handleClickShowPassword = () => setShowPassword((show) => !show)
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data)
+    console.log(email)
+    console.log(password)
   }
 
   const handleMouseDownPassword = (event) => {
@@ -115,18 +113,21 @@ function Login() {
               {...register("email", { required: "Please enter your college email" })}
               error={Boolean(errors.email)}
               helperText={errors.email?.message}
-              onChange={(e) => setEmail(e.target.value)}></TextField>
+              onChange={(e) => setEmail(e.target.value)}
+              value = {email}>
+              </TextField>
 
             <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
               <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
               <OutlinedInput
                 id="outlined-adornment-password"
-                name="Password"
-                onChange={(e) => setPassword(e.target.value)}
+                
+                onChange={e => setPassword(e.target.value)}
                 value={password}
-                {...register("Password", { required: "Please enter your password" })}
-                error={Boolean(errors.Password)}
-                helperText={errors.Password?.message}
+                label="Password"
+                // {...register("Password", { required: "Please enter your password" })}
+                // error={Boolean(errors.Password)}
+                // helperText={errors.Password?.message}
                 placeholder="Type your password"
                 type={showPassword ? "text" : "password"}
                 endAdornment={
@@ -140,7 +141,6 @@ function Login() {
                     </IconButton>
                   </InputAdornment>
                 }
-                label="Password"
               />
             </FormControl>
 
@@ -156,7 +156,7 @@ function Login() {
         </form>
         {action === "Sign Up" ? (
           <Typography variant="caption" display="block" textAlign="center">
-            Already have an account?{" "}
+            Already have an account?
             <Link
               href="#"
               underline="hover"

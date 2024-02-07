@@ -17,6 +17,7 @@
     "@mui/joy": "^5.0.0-beta.24",
     "@mui/material": "^5.15.6",
     "firebase": "^10.8.0",
+    "firestore": "^1.1.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.50.0"

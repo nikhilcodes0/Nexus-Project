@@ -26,6 +26,9 @@ dependencies:
   firebase:
     specifier: ^10.8.0
     version: 10.8.0
+  firestore:
+    specifier: ^1.1.6
+    version: 1.1.6
   react:
     specifier: ^18.2.0
     version: 18.2.0
@@ -2428,6 +2431,10 @@ packages:
       path-exists: 4.0.0
     dev: true
 
+  /firebase-token-generator@2.0.0:
+    resolution: {integrity: sha512-EX/Rw6C0NLF6StuszW9Pn4zGUU8dw0UdHY6u8zP5t/CsbYRwWVh0CwN6INFE5U4IizZtgqbWQhcAQNkBtNkyfQ==}
+    dev: false
+
   /firebase@10.8.0:
     resolution: {integrity: sha512-UJpC24vw8JFuHEOQyArBGKTUd7+kohLISCzHyn0M/prP0KOTx2io1eyLliEid330QqnWI7FOlPxoU97qecCSfQ==}
     dependencies:
@@ -2459,6 +2466,20 @@ packages:
       '@firebase/util': 1.9.4
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
+    dev: false
+
+  /firebase@2.4.2:
+    resolution: {integrity: sha512-+OA3MChRNTgKmC4Kq+Mnp41jteGSTyRxc6P7YVqk/bHUZK1EyxT0uNqLZWfbncjYy5MAKYUq+at9b2+8MlXs4w==}
+    dependencies:
+      faye-websocket: 0.11.4
+    dev: false
+
+  /firestore@1.1.6:
+    resolution: {integrity: sha512-RW2IPatMS7XUFtecjN5gxAdX1badHwaoYgplFDNLeN9ZjapOjgRv9Voa3P9ffRT0/lxBUMOFNkLxGHYWQBeaZA==}
+    dependencies:
+      firebase: 2.4.2
+      firebase-token-generator: 2.0.0
+      lodash: 3.10.1
     dev: false
 
   /flat-cache@3.2.0:
@@ -2931,6 +2952,10 @@ packages:
   /lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
     dev: true
+
+  /lodash@3.10.1:
+    resolution: {integrity: sha512-9mDDwqVIma6OZX79ZlDACZl8sBm0TEnkf99zV3iMA4GzkIT/9hiqP5mY0HoT1iNLCrKc/R1HByV+yJfRWVJryQ==}
+    dev: false
 
   /long@5.2.3:
     resolution: {integrity: sha512-lcHwpNoggQTObv5apGNCTdJrO69eHOZMi4BNC+rTLER8iHAqGrUVeLh/irVIM7zTw2bOXA8T6uNPeujwOLg/2Q==}

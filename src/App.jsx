@@ -3,11 +3,11 @@ import { useState, useEffect } from "react"
 import Login from "./pages/Login"
 import Homepage from "./pages/Homepage"
 import { app } from "./firebase"
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth"
+import { getAuth, onAuthStateChanged } from "firebase/auth"
 
 function App() {
   const storedUser = JSON.parse(sessionStorage.getItem("user"))
-
+  const uidState = false
   // Currently logged in user
   const [currentUser, setCurrentUser] = useState(storedUser)
 
@@ -17,11 +17,12 @@ function App() {
     onAuthStateChanged(auth, (user) => {
       // user ? setUser(user) : setUser(null)
       console.log(user)
+      uidState = currentUser.uid
     })
   }, [])
 
   // If the user is logged in, set home as the page, else set login as the page
-  const page = currentUser.uid ? <Homepage /> : <Login />
+  const page = uidState ? <Homepage /> : <Login />
   return <div className="App">{page}</div>
 }
 
