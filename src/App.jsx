@@ -6,7 +6,7 @@ import { app } from "./firebase"
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 
 function App() {
-  const storedUser = JSON.parse(localStorage.getItem("user"))
+  const storedUser = JSON.parse(sessionStorage.getItem("user"))
   let uidState = false
   // Currently logged in user
   const [currentUser, setCurrentUser] = useState(storedUser)
@@ -15,10 +15,8 @@ function App() {
   useEffect(function () {
     const auth = getAuth(app)
     onAuthStateChanged(auth, (user) => {
-      // user ? setUser(user) : setUser(null)
-      uidState= currentUser.uid
+      uidState= currentUser?.uid
       console.log(uidState)
-      // uidState = currentUser.uid
     })
   }, [])
 

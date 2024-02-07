@@ -3,9 +3,7 @@ import pic from "../components/assets/logo.svg"
 import TextField from "@mui/material/TextField"
 import Stack from "@mui/material/Stack"
 import FormControl from "@mui/material/FormControl"
-import InputLabel from "@mui/material/InputLabel"
 import InputAdornment from "@mui/material/InputAdornment"
-import OutlinedInput from "@mui/material/OutlinedInput"
 import EmailIcon from "@mui/icons-material/Email"
 import IconButton from "@mui/material/IconButton"
 import Visibility from "@mui/icons-material/Visibility"
@@ -19,11 +17,10 @@ import Divider from "@mui/material/Divider"
 import { useForm } from "react-hook-form"
 import "../Style/login.css"
 import GoogleIcon from "../components/assets/google.svg"
-import { firestore } from "../firebase";
-import { addDoc, collection } from "@firebase/firestore";
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase';
+
+import { createUserWithEmailAndPassword } from "firebase/auth"
+import { signInWithEmailAndPassword } from "firebase/auth"
+import { auth } from "../firebase"
 const SubmitButton = styled(Button)({
   backgroundColor: "#008080",
   color: "white",
@@ -54,43 +51,112 @@ function Login() {
   const [action, setAction] = useState("Sign In")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [name,setName] = useState("")
+  const [name, setName] = useState("")
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show)
   const onSubmit = async (data) => {
     console.log(data)
     console.log(email)
     console.log(password)
     console.log(name)
 
-    if (action === 'Sign In') {
+    if (action === "Sign In") {
       try {
-          const userCredential = await signInWithEmailAndPassword(auth,email,password);
-          console.log(userCredential);
-          const user = userCredential.user;
-          localStorage.setItem('token',user.accessToken);
-          localStorage.setItem('user',JSON.stringify(user));
+        const userCredential = await signInWithEmailAndPassword(auth, email, password)
+        console.log(userCredential)
+        const user = userCredential.user
+        sessionStorage.setItem("token", user.accessToken)
+        sessionStorage.setItem("user", JSON.stringify(user))
+      } catch (e) {
+        console.error(e)
       }
-      catch (e) {
-          console.error(e);
-      }
-  }
-  else {
+    } else {
       try {
-          const userCredential = await createUserWithEmailAndPassword(auth,email,password);
-          console.log(userCredential);
-          const user = userCredential.user;
-          localStorage.setItem('token',user.accessToken);
-          localStorage.setItem('user',JSON.stringify(user));
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        )
+        console.log(userCredential)
+        const user = userCredential.user
+        sessionStorage.setItem("token", user.accessToken)
+        sessionStorage.setItem("user", JSON.stringify(user))
+      } catch (e) {
+        console.error(e)
       }
-      catch (e) {
-          console.error(e);
-        }
-      }
+    }
   }
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault()
-  }
+
+  const nameTextField = (
+    <TextField
+      placeholder="Enter your name"
+      label="Your Name"
+      InputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <AccountCircle />
+          </InputAdornment>
+        ),
+      }}
+      variant="outlined"
+      fullWidth
+      name="username"
+      type="name"
+      {...register("name", { required: "Please enter your username" })}
+      error={Boolean(errors.name)}
+      helperText={errors.name?.message}
+      onChange={(e) => setName(e.target.value)}
+      value={name}></TextField>
+  )
+
+  const emailTextField = (
+    <TextField
+      placeholder="Enter your college email"
+      label="Your Email"
+      InputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <EmailIcon />
+          </InputAdornment>
+        ),
+      }}
+      variant="outlined"
+      fullWidth
+      name="email"
+      type="email"
+      {...register("email", { required: "Please enter your college email" })}
+      error={Boolean(errors.email)}
+      helperText={errors.email?.message}
+      onChange={(e) => setEmail(e.target.value)}
+      value={email}></TextField>
+  )
+
+  const passwordTextField = (
+    <TextField
+      placeholder="Enter your password"
+      label="Password"
+      InputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <IconButton
+              aria-label="toggle password visibility"
+              onClick={() => setShowPassword((show) => !show)}
+              edge="end">
+              {showPassword ? <VisibilityOff /> : <Visibility />}
+            </IconButton>
+          </InputAdornment>
+        ),
+      }}
+      variant="outlined"
+      fullWidth
+      name="password"
+      type={showPassword ? "text" : "password"}
+      {...register("password", { required: "Please enter your password" })}
+      error={Boolean(errors.password)}
+      helperText={errors.password?.message}
+      onChange={(e) => setPassword(e.target.value)}
+      value={password}></TextField>
+  )
+
   return (
     <div className="main">
       <div className="sidebar">
@@ -107,110 +173,33 @@ function Login() {
         <img src={pic} alt="Logo" />
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormStack spacing={2}>
-            {action === "Sign Up" ? (
-              <TextField
-                placeholder="Enter your name"
-                label="Your Name"
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <AccountCircle />
-                    </InputAdornment>
-                  ),
-                }}
-                variant="outlined"
-                fullWidth
-                name="username"
-                type="name"
-                {...register("name", { required: "Please enter your username" })}
-                error={Boolean(errors.name)}
-                helperText={errors.name?.message}
-                onChange={(e) => setName(e.target.value)}
-                value = {name}></TextField>
-            ) : null}
+            {action === "Sign Up" ? nameTextField : null}
 
-            <TextField
-              placeholder="Enter your college email"
-              label="Your Email"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <EmailIcon />
-                  </InputAdornment>
-                ),
-              }}
-              variant="outlined"
-              fullWidth
-              name="email"
-              type="email"
-              {...register("email", { required: "Please enter your college email" })}
-              error={Boolean(errors.email)}
-              helperText={errors.email?.message}
-              onChange={(e) => setEmail(e.target.value)}
-              value = {email}>
-              </TextField>
-
-              <TextField 
-                placeholder="Enter your password"
-                label="Password"
-                InputProps={{
-
-                    endAdornment:(
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          onMouseDown={handleMouseDownPassword}
-                          edge="end">
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                }}
-                variant="outlined"
-                fullWidth
-                name="password"
-                type={showPassword ? "text" : "password"}
-                {...register("password", { required: "Please enter your password" })}
-                error={Boolean(errors.password)}
-                helperText={errors.password?.message}
-                onChange={e => setPassword(e.target.value)}
-                value={password}
-
-              ></TextField>
-              
+            {/* Email and password text fields */}
+            {emailTextField}
+            {passwordTextField}
 
             <SubmitButton
               variant="contained"
               type="submit"
-              onClick={async function authenticate() {
-                console.log(email, password)
-              }}>
+              onClick={async () => console.log(email, password)}>
               {action}
             </SubmitButton>
           </FormStack>
         </form>
+
+        {/* Show different text depending on intent */}
         {action === "Sign Up" ? (
           <Typography variant="caption" display="block" textAlign="center">
             Already have an account?
-            <Link
-              href="#"
-              underline="hover"
-              onClick={() => {
-                setAction("Sign In")
-              }}>
+            <Link href="#" underline="hover" onClick={() => setAction("Sign In")}>
               {"Sign In"}
             </Link>
           </Typography>
         ) : (
           <Typography variant="caption" display="block" textAlign="center">
             Don't have an account yet?{" "}
-            <Link
-              href="#"
-              underline="hover"
-              onClick={() => {
-                setAction("Sign Up")
-              }}>
+            <Link href="#" underline="hover" onClick={() => setAction("Sign Up")}>
               {"Sign Up Now!"}
             </Link>
           </Typography>
