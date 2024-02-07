@@ -22,6 +22,8 @@ import { createUserWithEmailAndPassword } from "firebase/auth"
 import { signInWithEmailAndPassword } from "firebase/auth"
 import { auth } from "../firebase"
 import { useNavigate } from "react-router-dom"
+import { toast } from "react-toastify"
+
 const SubmitButton = styled(Button)({
   backgroundColor: "#008080",
   color: "white",
@@ -57,15 +59,21 @@ function Login() {
   // Use for naviation
   const navigator = useNavigate()
 
-  const onSubmit = async (data) => {
+  const handleFormSubmit = async (e) => {
+    e.preventDefault()
+
     // Function to sign in the user
     async function signIn() {
       try {
-        await signInWithEmailAndPassword(auth, email, password)
+        const user = await signInWithEmailAndPassword(auth, email, password)
         // Navigate to home if the user has a UID
-        if (auth.currentUser.uid) navigator("/")
+        if (auth.currentUser.uid) {
+          toast.success("Login Successful!")
+          navigator("/")
+        }
       } catch (e) {
-        console.error(e)
+        toast.error("Invalid Username or Password")
+        setPassword("")
       }
     }
 
@@ -73,10 +81,12 @@ function Login() {
     async function signUp() {
       try {
         await createUserWithEmailAndPassword(auth, email, password)
+        toast.success("Account created successfully!")
         setAction("Sign In")
         setPassword("")
       } catch (e) {
-        console.error(e)
+        toast.error("Account not created. Please try again.")
+        setPassword("")
       }
     }
 
@@ -169,7 +179,7 @@ function Login() {
       </div>
       <div className="main-form">
         <img src={pic} alt="Logo" />
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form>
           <FormStack spacing={2}>
             {action === "Sign Up" ? nameTextField : null}
 
@@ -177,7 +187,7 @@ function Login() {
             {emailTextField}
             {passwordTextField}
 
-            <SubmitButton variant="contained" type="submit">
+            <SubmitButton variant="contained" type="submit" onClick={handleFormSubmit}>
               {action}
             </SubmitButton>
           </FormStack>
@@ -213,6 +223,7 @@ function Login() {
           </Link>
         </FormControl>
       </div>
+      {/* <ToastContainer autoClose={1000} /> */}
     </div>
   )
 }

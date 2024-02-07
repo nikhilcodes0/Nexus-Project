@@ -5,6 +5,7 @@ import Homepage from "./pages/Homepage"
 import { app } from "./firebase"
 import { useNavigate } from "react-router-dom"
 import { getAuth, onAuthStateChanged } from "firebase/auth"
+import { Container } from "@mui/material"
 
 function App() {
   // Currently logged in user
@@ -17,14 +18,18 @@ function App() {
   // Run this effect on component mount
   useEffect(() => {
     if (!currentUser?.uid) navigator("/login")
-  })
+  }, [])
 
   const auth = getAuth(app)
   onAuthStateChanged(auth, (user) => setCurrentUser(user))
 
-  // If the user is logged in, set home as the page, else set login as the page
-  const page = storedUser ? <Homepage /> : <Login />
-  return <div className="App">{page}</div>
+  return (
+    <Container className="App">
+      {/* If the user is logged in, show homepage, else show login page */}
+      {currentUser ? <Homepage /> : <Login />}
+
+    </Container>
+  )
 }
 
 export default App
