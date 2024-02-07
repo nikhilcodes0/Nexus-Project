@@ -79,7 +79,7 @@ function Login() {
             {action === "Sign Up" ? (
               <TextField
                 placeholder="Enter your name"
-                label="Name"
+                label="Your Name"
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
@@ -98,7 +98,7 @@ function Login() {
 
             <TextField
               placeholder="Enter your college email"
-              label="Email"
+              label="Your Email"
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -117,32 +117,35 @@ function Login() {
               value = {email}>
               </TextField>
 
-            <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-password"
-                
+              <TextField 
+                placeholder="Enter your password"
+                label="Password"
+                InputProps={{
+
+                    endAdornment:(
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end">
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                }}
+                variant="outlined"
+                fullWidth
+                name="password"
+                type={showPassword ? "text" : "password"}
+                {...register("password", { required: "Please enter your password" })}
+                error={Boolean(errors.password)}
+                helperText={errors.password?.message}
                 onChange={e => setPassword(e.target.value)}
                 value={password}
-                label="Password"
-                // {...register("Password", { required: "Please enter your password" })}
-                // error={Boolean(errors.Password)}
-                // helperText={errors.Password?.message}
-                placeholder="Type your password"
-                type={showPassword ? "text" : "password"}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end">
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
+
+              ></TextField>
+              
 
             <SubmitButton
               variant="contained"
