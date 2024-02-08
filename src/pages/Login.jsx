@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import pic from "../components/assets/logo.svg"
 import TextField from "@mui/material/TextField"
 import Stack from "@mui/material/Stack"
@@ -18,7 +18,7 @@ import { useForm } from "react-hook-form"
 import "../Style/login.css"
 import GoogleIcon from "../components/assets/google.svg"
 
-import { createUserWithEmailAndPassword } from "firebase/auth"
+import { AuthErrorCodes, createUserWithEmailAndPassword } from "firebase/auth"
 import { signInWithEmailAndPassword } from "firebase/auth"
 import { auth } from "../firebase"
 import { useNavigate } from "react-router-dom"
@@ -59,6 +59,11 @@ function Login() {
   // Use for naviation
   const navigator = useNavigate()
 
+  // Ensure that the user does not see the login page if he is already logged in
+  useEffect(() => {
+    auth.currentUser ? navigator("/") : null
+  }, [])
+
   const handleFormSubmit = async (e) => {
     e.preventDefault()
 
@@ -67,12 +72,16 @@ function Login() {
       try {
         const user = await signInWithEmailAndPassword(auth, email, password)
         // Navigate to home if the user has a UID
-        if (auth.currentUser.uid) {
+        if (user.user.uid) {
           toast.success("Login Successful!")
           navigator("/")
         }
-      } catch (e) {
-        toast.error("Invalid Username or Password")
+      } catch (error) {
+        if (error.code === AuthErrorCodes.INVALID_PASSWORD)
+          toast.error("Invalid username or password")
+        else if (error.code === AuthErrorCodes.USER_NOT_FOUND)
+          toast.error("User not found")
+        else toast.error(error.message)
         setPassword("")
       }
     }
@@ -84,8 +93,10 @@ function Login() {
         toast.success("Account created successfully!")
         setAction("Sign In")
         setPassword("")
-      } catch (e) {
-        toast.error("Account not created. Please try again.")
+      } catch (error) {
+        if (error.code === AuthErrorCodes.EMAIL_EXISTS)
+          toast.error("Email already exists")
+        else toast.error(error.message)
         setPassword("")
       }
     }
@@ -223,7 +234,6 @@ function Login() {
           </Link>
         </FormControl>
       </div>
-      {/* <ToastContainer autoClose={1000} /> */}
     </div>
   )
 }
