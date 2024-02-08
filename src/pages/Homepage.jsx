@@ -35,8 +35,6 @@ function Homepage() {
   // Check if user is logged in when component mounts
   // If the user is not authenticated, go to /login
   useEffect(() => {
-    console.log(!auth.currentUser)
-    console.log(auth.currentUser)
     if (!auth.currentUser) navigator("/login")
   }, [])
 

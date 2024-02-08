@@ -14,11 +14,10 @@ function App() {
   const navigator = useNavigate()
 
   const [currentUser, setCurrentUser] = useState(auth.currentUser)
-  console.log(currentUser)
 
-  // useEffect(() => {
-  //   if (!currentUser) navigator("/login")
-  // }, [])
+  useEffect(() => {
+    if (!currentUser) navigator("/login")
+  }, [])
 
   onAuthStateChanged(auth, (user) => setCurrentUser(user))
 
