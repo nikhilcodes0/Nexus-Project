@@ -72,7 +72,7 @@ const LogoutLi = styled(ListItemButton)({
 })
 
 // Importing local files
-import logo from "../components/assets/logo.svg" //Importing logo
+import logo from "../assets/logo.svg" //Importing logo
 import "../Style/Sidebar.css" //Importing CSS file
 import { useNavigate } from "react-router-dom"
 

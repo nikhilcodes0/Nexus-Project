@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import pic from "../components/assets/logo.svg"
+import pic from "../assets/logo.svg"
 import TextField from "@mui/material/TextField"
 import Stack from "@mui/material/Stack"
 import FormControl from "@mui/material/FormControl"
@@ -16,7 +16,7 @@ import Link from "@mui/material/Link"
 import Divider from "@mui/material/Divider"
 import { useForm } from "react-hook-form"
 import "../Style/login.css"
-import GoogleIcon from "../components/assets/google.svg"
+import GoogleIcon from "../assets/google.svg"
 
 import { AuthErrorCodes, createUserWithEmailAndPassword } from "firebase/auth"
 import { signInWithEmailAndPassword } from "firebase/auth"
@@ -180,8 +180,12 @@ function Login() {
     <div className="main">
       <div className="sidebar">
         <div className="top">
-          <h2>Sign In</h2>
-          <h2>Manage Users, Accounts Books and more</h2>
+          <Typography variant="h3" textAlign="center" fontFamily={"Montserrat"}>
+            Sign In
+          </Typography>
+          <Typography variant="h6" textAlign="center" fontFamily={"Montserrat"}>
+            Connect with Seniors, Get access to books or ask for it... and more
+          </Typography>
         </div>
         <div className="btm">
           <p>Go Green</p>

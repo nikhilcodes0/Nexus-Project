@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Rating from "@mui/material/Rating";
 import Chip from "@mui/material/Chip";
-import testImg from "./assets/test.jpg";
+import testImg from "../assets/test.jpg";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 

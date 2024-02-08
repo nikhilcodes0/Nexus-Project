@@ -22,7 +22,7 @@
     flex-direction: column;
     background-color: #008080; 
     color: white;
-    width: 35vw;
+    width: 20vw;
     height: 100vh;
     padding: 1rem 2rem;
     border-radius: 0 1rem 1rem 0;
@@ -77,8 +77,4 @@
  .or span { 
      background:#fff; 
      padding:0 10px; 
- }
-
- .icon {
-    
  }

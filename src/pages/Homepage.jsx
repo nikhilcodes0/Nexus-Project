@@ -10,7 +10,7 @@ import Stack from "@mui/material/Stack";
 import Grid from '@mui/material/Grid';
 
 import "../Style/homepage.css"
-import ill1 from "../components/assets/ill1.svg"
+import ill1 from "../assets/ill1.svg"
 
 const WhiteBorderTextField = styled(TextField)`
   & label.Mui-focused {
