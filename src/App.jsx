@@ -1,13 +1,24 @@
-import "./App.css"
-import { useState, useEffect } from "react"
-import Login from "./pages/Login"
-import Homepage from "./pages/Homepage"
-import { app, auth } from "./firebase"
+import { useState } from "react"
+import { auth } from "./firebase"
 import { useNavigate } from "react-router-dom"
-import { getAuth, onAuthStateChanged } from "firebase/auth"
+import { onAuthStateChanged } from "firebase/auth"
 import { Container } from "@mui/material"
-import { Navigate } from "react-router-dom"
-import { Home } from "@mui/icons-material"
+
+import Sidebar from "./components/Sidebar"
+import Homepage from "./pages/Homepage"
+
+import appBackground from "./assets/backgroundImage.png"
+
+const mainContainerStyle = {
+  display: "flex",
+  flexDirection: "row",
+  height: "100vh",
+  backgroundImage: `url(${appBackground})`,
+  backgroundSize: "cover",
+  backgroundColor: "rgba(255, 255, 255, 0.5)", // Adjust the alpha value as needed
+  overflowX: "hidden",
+  padding: "0px !important",
+}
 
 function App() {
   // Use for navigation
@@ -15,14 +26,11 @@ function App() {
 
   const [currentUser, setCurrentUser] = useState(auth.currentUser)
 
-  useEffect(() => {
-    if (!currentUser) navigator("/login")
-  }, [])
-
   onAuthStateChanged(auth, (user) => setCurrentUser(user))
 
   return (
-    <Container>
+    <Container sx={mainContainerStyle} maxWidth={false}>
+      {/* <Sidebar /> */}
       <Homepage />
     </Container>
   )

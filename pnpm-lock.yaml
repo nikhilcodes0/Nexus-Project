@@ -14,6 +14,12 @@ dependencies:
   '@firebase/firestore':
     specifier: ^4.4.2
     version: 4.4.2(@firebase/app@0.9.27)
+  '@fontsource/open-sans':
+    specifier: ^5.0.22
+    version: 5.0.22
+  '@fontsource/pacifico':
+    specifier: ^5.0.8
+    version: 5.0.8
   '@fontsource/roboto':
     specifier: ^5.0.8
     version: 5.0.8
@@ -1158,6 +1164,14 @@ packages:
 
   /@floating-ui/utils@0.2.1:
     resolution: {integrity: sha512-9TANp6GPoMtYzQdt54kfAyMmz1+osLlXdg2ENroU7zzrtflTLrrC/lgrIfaSe+Wu0b89GKccT7vxXA0MoAIO+Q==}
+    dev: false
+
+  /@fontsource/open-sans@5.0.22:
+    resolution: {integrity: sha512-lN3A4prlcVPgLjlgwY+oMPalpyXPM/6DwaLr6LjqkjytjGIZTLBbInL+zTfcemSyMtTQklreETepGjjmtzlRHA==}
+    dev: false
+
+  /@fontsource/pacifico@5.0.8:
+    resolution: {integrity: sha512-0WQ50ZzIv3dP98ET8Pthr12cF6f8ova3FslIXjrtwh9mo2Xo60T1hzUhVNfZLFVtwd2MVH6MNVa85OCfqZ4/+w==}
     dev: false
 
   /@fontsource/roboto@5.0.8:
