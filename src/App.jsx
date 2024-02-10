@@ -8,6 +8,17 @@ import { getAuth, onAuthStateChanged } from "firebase/auth"
 import { Container } from "@mui/material"
 import { Navigate } from "react-router-dom"
 import { Home } from "@mui/icons-material"
+import { styled } from '@mui/material/styles';
+
+
+const mainContainer = styled(Container)`
+  & @media (min-width: 1200px) {
+    & .MuiContainer-root {
+      max-width: 100%;
+    }
+  }
+`;
+
 
 function App() {
   // Use for navigation
@@ -22,9 +33,9 @@ function App() {
   onAuthStateChanged(auth, (user) => setCurrentUser(user))
 
   return (
-    <Container>
+    <mainContainer>
       <Homepage />
-    </Container>
+    </mainContainer>
   )
 }
 
