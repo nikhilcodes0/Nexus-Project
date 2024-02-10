@@ -1,0 +1,9 @@
+.bigblob {
+  opacity: 50%;
+}
+
+.smallblob {
+  position: absolute;
+  right: 0;
+  top: 6rem;
+}
