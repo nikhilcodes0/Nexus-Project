@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "@firebase/firestore";
 import { browserLocalPersistence, getAuth, setPersistence } from "firebase/auth";
-
+import { getDatabase } from "firebase/database"
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -10,7 +10,8 @@ const firebaseConfig = {
   projectId: "ecotexts-35879",
   storageBucket: "ecotexts-35879.appspot.com",
   messagingSenderId: "1008385910193",
-  appId: "1:1008385910193:web:b0d7554d3cc6cf66270990"
+  appId: "1:1008385910193:web:b0d7554d3cc6cf66270990",
+  databaseURL: "https://ecotexts-35879-default-rtdb.firebaseio.com/"
 };
 
 
@@ -19,3 +20,4 @@ export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app)
 await setPersistence(auth, browserLocalPersistence)
 export const firestore = getFirestore(app);
+export const database = getDatabase(app)
