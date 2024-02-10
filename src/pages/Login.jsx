@@ -17,7 +17,8 @@ import Divider from "@mui/material/Divider"
 import { useForm } from "react-hook-form"
 import "../Style/login.css"
 import GoogleIcon from "../assets/google.svg"
-
+import { database } from "../firebase"
+import { ref, set } from "firebase/database";
 import { AuthErrorCodes, createUserWithEmailAndPassword } from "firebase/auth"
 import { signInWithEmailAndPassword } from "firebase/auth"
 import { auth } from "../firebase"
@@ -55,7 +56,6 @@ function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [name, setName] = useState("")
-
   // Use for naviation
   const navigator = useNavigate()
 
@@ -90,7 +90,14 @@ function Login() {
     async function signUp() {
       try {
         await createUserWithEmailAndPassword(auth, email, password)
+        const user = auth.currentUser
         toast.success("Account created successfully!")
+        const user_data ={
+          email : email,
+          fullname : name,
+          last_login : Date.now()
+        }
+        set(ref(database,'users/' + user.uid),user_data)
         setAction("Sign In")
         setPassword("")
       } catch (error) {
