@@ -40,7 +40,10 @@ export default function Sidebar() {
         <SidebarLink name="About" location="/" icon={InfoIcon} />
 
         {/* Logout Button needs custom styling and we cant override the style outside the component definition */}
-        <NavLink className="sidebar-link sidebar-link__logout" onClick={handleLogout}>
+        <NavLink
+          to={"/logout"}
+          className="sidebar-link sidebar-link__logout"
+          onClick={handleLogout}>
           <PowerSettingsNewIcon className="icon" />
           <Typography style={{ fontWeight: "500", fontSize: "1.5rem" }}>
             Logout
