@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react"
-import MainContainer from "../components/MainContainer"
-import Sidebar from "../components/Sidebar"
-import ThemedButton from "../components/Button"
-import TestImage from "../assets/test.jpg"
-import imageNotFound from "../assets/imageNotFound.jpg"
-import { collection, getDocs, doc, addDoc } from "@firebase/firestore"
-import { db, auth } from "../firebase"
-import { toast } from "react-toastify"
-import { useNavigate } from "react-router-dom"
+import { useState, useEffect } from "react";
+import MainContainer from "../components/MainContainer";
+import Sidebar from "../components/Sidebar";
+import ThemedButton from "../components/Button";
+import TestImage from "../assets/test.jpg";
+import imageNotFound from "../assets/imageNotFound.jpg";
+import { collection, getDocs, doc, addDoc } from "@firebase/firestore";
+import { db, auth } from "../firebase";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 import {
   Box,
@@ -22,9 +22,9 @@ import {
   ImageListItem,
   FormControl,
   InputLabel,
-} from "@mui/material"
+} from "@mui/material";
 
-import VolunteerActivismTwoToneIcon from "@mui/icons-material/VolunteerActivismTwoTone"
+import VolunteerActivismTwoToneIcon from "@mui/icons-material/VolunteerActivismTwoTone";
 
 const donatePageStyle = {
   display: "flex",
@@ -33,15 +33,16 @@ const donatePageStyle = {
   justifyContent: "center",
   alignItems: "center",
   gap: "2rem",
-}
+  marginLeft: "20rem",
+};
 
 const mainHeadingStyle = {
   display: "flex",
   justifyContent: "center",
   gap: "1rem",
-}
+};
 
-const mainHeadingIconStyle = { width: "4rem", height: "4rem" }
+const mainHeadingIconStyle = { width: "4rem", height: "4rem" };
 
 const formStyle = {
   width: "80%",
@@ -52,7 +53,7 @@ const formStyle = {
   backdropFilter: "blur(2px)",
   display: "flex",
   flexDirection: "column",
-}
+};
 
 const boxColStyle = {
   height: "100%",
@@ -61,58 +62,58 @@ const boxColStyle = {
   flexDirection: "column",
   flexWrap: "wrap",
   justifyContent: "space-around",
-}
+};
 
 const blankImageStyle = {
   width: "25rem",
   objectFit: "contain",
   borderRadius: "1rem",
-}
+};
 
 export default function Donate() {
-  const [selectedImages, setSelectedImages] = useState([0, 0, 0, 0, 0, 0])
+  const [selectedImages, setSelectedImages] = useState([0, 0, 0, 0, 0, 0]);
 
-  const [subjectsinDb, setSubjectsInDb] = useState([])
-  const [coursesInDb, setCoursesInDb] = useState([])
-  const [semestersInDb, setSemestersInDb] = useState([])
+  const [subjectsinDb, setSubjectsInDb] = useState([]);
+  const [coursesInDb, setCoursesInDb] = useState([]);
+  const [semestersInDb, setSemestersInDb] = useState([]);
 
-  const [bookTitle, setBookTitle] = useState("")
-  const [subject, setSubject] = useState("")
-  const [semester, setSemester] = useState("")
-  const [course, setCourse] = useState("")
-  const [bookCondition, setBookCondition] = useState(0)
+  const [bookTitle, setBookTitle] = useState("");
+  const [subject, setSubject] = useState("");
+  const [semester, setSemester] = useState("");
+  const [course, setCourse] = useState("");
+  const [bookCondition, setBookCondition] = useState(0);
 
   // Use for navigation
-  const navigator = useNavigate()
+  const navigator = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
-      const docsSnapshot = await getDocs(collection(db, "courses"))
+      const docsSnapshot = await getDocs(collection(db, "courses"));
       const coursesInDb = docsSnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
-      }))
+      }));
 
-      const subjectsSnapshot = await getDocs(collection(db, "subjects"))
+      const subjectsSnapshot = await getDocs(collection(db, "subjects"));
       const subjectsInDb = subjectsSnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
-      }))
+      }));
 
-      setCoursesInDb(coursesInDb)
-      setSubjectsInDb(subjectsInDb)
-    }
+      setCoursesInDb(coursesInDb);
+      setSubjectsInDb(subjectsInDb);
+    };
 
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   function handleCourseChange(e) {
-    setCourse(e.target.value)
+    setCourse(e.target.value);
     coursesInDb.map((course) => {
       if (course.code === e.target.value) {
-        setSemestersInDb(course.semesters)
+        setSemestersInDb(course.semesters);
       }
-    })
+    });
   }
 
   async function handleBookDonation() {
@@ -133,10 +134,10 @@ export default function Donate() {
       semester: semester,
       donated: false,
       donationBy: doc(db, "users", auth.currentUser.email),
-    })
+    });
 
-    toast.success("Book listed for donation")
-    navigator("/")
+    toast.success("Book listed for donation");
+    navigator("/");
   }
 
   return (
@@ -180,7 +181,9 @@ export default function Donate() {
                 onChange={(e, value) => setSubject(value)}
                 onInput={(e, value) => setSubject(e.target.value, value)}
                 options={subjectsinDb.map((subject) => subject.name)}
-                renderInput={(params) => <TextField {...params} label="Subject" />}
+                renderInput={(params) => (
+                  <TextField {...params} label="Subject" />
+                )}
               />
 
               {/* Course Selection Input */}
@@ -192,7 +195,8 @@ export default function Donate() {
                   id="book-course"
                   value={course}
                   onChange={handleCourseChange}
-                  label="Used by Course / Department">
+                  label="Used by Course / Department"
+                >
                   {coursesInDb.map((course, index) => (
                     <MenuItem key={index} value={course.code}>
                       {course.name}
@@ -208,7 +212,8 @@ export default function Donate() {
                   id="book-semester"
                   label="Required in Semester / Trimester"
                   value={semester}
-                  onChange={(e) => setSemester(e.target.value)}>
+                  onChange={(e) => setSemester(e.target.value)}
+                >
                   {semestersInDb.map((sem, index) => (
                     <MenuItem key={index} value={sem}>
                       {sem}
@@ -242,7 +247,11 @@ export default function Donate() {
                   ))}
                 </ImageList>
               ) : (
-                <img src={imageNotFound} alt="No Image" style={blankImageStyle} />
+                <img
+                  src={imageNotFound}
+                  alt="No Image"
+                  style={blankImageStyle}
+                />
               )}
               {/* Image List */}
 
@@ -251,14 +260,17 @@ export default function Donate() {
                 variant="contained"
                 color={selectedImages.length ? "error" : "primary"}
                 onClick={() => setSelectedImages([])}
-                sx={{ width: "max-content" }}>
-                {selectedImages.length ? "Clear Selection" : "Select Image files"}
+                sx={{ width: "max-content" }}
+              >
+                {selectedImages.length
+                  ? "Clear Selection"
+                  : "Select Image files"}
               </Button>
 
               {/* Needless typography, because why not? */}
               <Typography variant="p  " align="center">
-                Your contribution will alleviate climate change and help students in
-                need
+                Your contribution will alleviate climate change and help
+                students in need
               </Typography>
             </Box>
           </Box>
@@ -269,7 +281,8 @@ export default function Donate() {
           variant="contained"
           color="primary"
           size="large"
-          onClick={handleBookDonation}>
+          onClick={handleBookDonation}
+        >
           Donate Book
         </ThemedButton>
 
@@ -278,12 +291,13 @@ export default function Donate() {
           color="primary"
           size="large"
           onClick={() => {
-            console.log(auth.currentUser.email)
-            console.log(bookTitle, semester, subject, course, bookCondition)
-          }}>
+            console.log(auth.currentUser.email);
+            console.log(bookTitle, semester, subject, course, bookCondition);
+          }}
+        >
           PRINT
         </ThemedButton>
       </Box>
     </MainContainer>
-  )
+  );
 }

@@ -1,17 +1,18 @@
-import { auth } from "../firebase"
-import { useEffect } from "react"
-import { useNavigate } from "react-router-dom"
-import Sidebar from "../components/Sidebar"
-import BookCard from "../components/BookCard"
-import TextField from "@mui/material/TextField"
-import { styled } from "@mui/material/styles"
-import SearchIcon from "@mui/icons-material/Search"
-import Stack from "@mui/material/Stack"
-import Grid from "@mui/material/Grid"
+import { auth } from "../firebase";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
+import BookCard from "../components/BookCard";
+import TextField from "@mui/material/TextField";
+import { styled } from "@mui/material/styles";
+import SearchIcon from "@mui/icons-material/Search";
+import Stack from "@mui/material/Stack";
+import Grid from "@mui/material/Grid";
 
-import MainContainer from "../components/MainContainer"
+import MainContainer from "../components/MainContainer";
+import "../Style/homepage.css";
 // import "../Style/homepage.css"
-import ill1 from "../assets/ill1.svg"
+import ill1 from "../assets/ill1.svg";
 
 const WhiteBorderTextField = styled(TextField)`
   & label.Mui-focused {
@@ -28,17 +29,17 @@ const WhiteBorderTextField = styled(TextField)`
   & MuiOutlinedInput-input::placeholder {
     font-size: 2rem;
   }
-`
+`;
 
-const homepageContainerStyle = { width: "80vw" }
+const homepageContainerStyle = { width: "82.5vw" };
 
 function Homepage() {
-  const navigator = useNavigate()
+  const navigator = useNavigate();
   // Check if user is logged in when component mounts
   // If the user is not authenticated, go to /login
   useEffect(() => {
-    if (!auth.currentUser) navigator("/login")
-  }, [])
+    if (!auth.currentUser) navigator("/login");
+  }, []);
 
   return (
     <MainContainer>
@@ -68,7 +69,8 @@ function Homepage() {
               sx: { borderRadius: "1rem" },
               startAdornment: <SearchIcon />,
             }}
-            placeholder="  Search by your book name, course, semester"></WhiteBorderTextField>
+            placeholder="  Search by your book name, course, semester"
+          ></WhiteBorderTextField>
         </div>
         <Stack
           direction="row"
@@ -78,8 +80,13 @@ function Homepage() {
             width: "90%",
             margin: "3rem auto",
             padding: "1rem",
-          }}>
-          <Grid container rowSpacing={5} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+          }}
+        >
+          <Grid
+            container
+            rowSpacing={5}
+            columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          >
             <Grid item xs={6}>
               <BookCard />
             </Grid>
@@ -120,7 +127,7 @@ function Homepage() {
         </Stack>
       </div>
     </MainContainer>
-  )
+  );
 }
 
-export default Homepage
+export default Homepage;

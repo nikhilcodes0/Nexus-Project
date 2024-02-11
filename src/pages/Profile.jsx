@@ -1,16 +1,16 @@
-import smallblob from "../assets/blob-1-opacity-100.gif"
-import largeblob from "../assets/blob-1-opacity-50.gif"
-import Box from "@mui/material/Box"
-import Sidebar from "../components/Sidebar"
-import Avatar from "@mui/material/Avatar"
-import Typography from "@mui/material/Typography"
-import Stack from "@mui/material/Stack"
-import Button from "@mui/material/Button"
-import IconButton from "@mui/material/IconButton"
-import EditIcon from "@mui/icons-material/Edit"
+import smallblob from "../assets/blob-1-opacity-100.gif";
+import largeblob from "../assets/blob-1-opacity-50.gif";
+import Box from "@mui/material/Box";
+import Sidebar from "../components/Sidebar";
+import Avatar from "@mui/material/Avatar";
+import Typography from "@mui/material/Typography";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import EditIcon from "@mui/icons-material/Edit";
 
-import "../Style/profile.css"
-import MainContainer from "../components/MainContainer"
+import "../Style/profile.css";
+import MainContainer from "../components/MainContainer";
 
 export default function Profile() {
   return (
@@ -18,13 +18,16 @@ export default function Profile() {
       <Sidebar />
       <Box
         sx={{
-          marginLeft: "20rem",
-        }}>
+          marginLeft: "46rem",
+          marginTop: "3rem",
+        }}
+      >
         <Box
           sx={{
             margin: "5rem auto",
             width: "40rem",
-          }}>
+          }}
+        >
           <Avatar
             sx={{
               width: "10rem",
@@ -32,7 +35,8 @@ export default function Profile() {
               fontSize: "4rem",
               backgroundColor: "green",
               margin: "2rem auto",
-            }}>
+            }}
+          >
             S
           </Avatar>
           <Typography
@@ -40,7 +44,8 @@ export default function Profile() {
             sx={{
               textAlign: "center",
               margin: "4rem auto 2rem auto",
-            }}>
+            }}
+          >
             Hi, Mys7erio
           </Typography>
           <Stack
@@ -49,7 +54,8 @@ export default function Profile() {
             sx={{
               margin: "0rem auto",
               width: "fit-content",
-            }}>
+            }}
+          >
             <Button
               variant="contained"
               sx={{
@@ -62,7 +68,8 @@ export default function Profile() {
                 "&:hover": {
                   backgroundColor: "darkgreen",
                 },
-              }}>
+              }}
+            >
               Connect
             </Button>
             <IconButton
@@ -74,7 +81,8 @@ export default function Profile() {
                 "&:hover": {
                   backgroundColor: "darkgreen",
                 },
-              }}>
+              }}
+            >
               <EditIcon />
             </IconButton>
           </Stack>
@@ -84,19 +92,22 @@ export default function Profile() {
             sx={{
               margin: "2rem auto",
               width: "fit-content",
-            }}>
+            }}
+          >
             <Stack
               direction="row"
               spacing={2}
               width="fit-content"
               sx={{
                 margin: "2rem auto",
-              }}>
+              }}
+            >
               <Typography
                 variant="h6"
                 sx={{
                   fontWeight: "bold",
-                }}>
+                }}
+              >
                 Full Name:
               </Typography>
               <Typography variant="h6">Shakir Ali</Typography>
@@ -107,12 +118,14 @@ export default function Profile() {
               width="fit-content"
               sx={{
                 margin: "2rem auto",
-              }}>
+              }}
+            >
               <Typography
                 variant="h6"
                 sx={{
                   fontWeight: "bold",
-                }}>
+                }}
+              >
                 Books Donated:
               </Typography>
               <Typography variant="h6">10</Typography>
@@ -124,7 +137,8 @@ export default function Profile() {
             sx={{
               margin: "2rem auto",
               width: "fit-content",
-            }}>
+            }}
+          >
             <Stack spacing={2}>
               <Typography
                 variant="h6"
@@ -134,7 +148,8 @@ export default function Profile() {
                   width: "fit-content",
                   textAlign: "center",
                   padding: "0.5rem 0.8rem",
-                }}>
+                }}
+              >
                 Course:
               </Typography>
               <Typography
@@ -147,7 +162,8 @@ export default function Profile() {
                   width: "100px",
                   opacity: "0.8",
                   boxShadow: "0px 4px 4px 0px rgb(0 0 0 / 25%)",
-                }}>
+                }}
+              >
                 BCA
               </Typography>
             </Stack>
@@ -160,7 +176,8 @@ export default function Profile() {
                   width: "fit-content",
                   textAlign: "center",
                   padding: "0.5rem 0.2rem",
-                }}>
+                }}
+              >
                 Semester:
               </Typography>
               <Typography
@@ -175,7 +192,8 @@ export default function Profile() {
                   opacity: "0.8",
                   boxShadow: "0px 4px 4px 0px rgb(0 0 0 / 25%)",
                   textAlign: "center",
-                }}>
+                }}
+              >
                 IV
               </Typography>
             </Stack>
@@ -183,7 +201,8 @@ export default function Profile() {
               spacing={2}
               sx={{
                 width: "fit-content",
-              }}>
+              }}
+            >
               <Typography
                 variant="h6"
                 sx={{
@@ -192,7 +211,8 @@ export default function Profile() {
                   width: "fit-content",
                   textAlign: "center",
                   padding: "0.5rem 0.5rem",
-                }}>
+                }}
+              >
                 College:
               </Typography>
               <Typography
@@ -207,7 +227,8 @@ export default function Profile() {
                   opacity: "0.8",
                   boxShadow: "0px 4px 4px 0px rgb(0 0 0 / 25%)",
                   textAlign: "center",
-                }}>
+                }}
+              >
                 KJC
               </Typography>
             </Stack>
@@ -220,10 +241,11 @@ export default function Profile() {
           position: "absolute",
           bottom: "-13rem",
           right: "-13rem",
-        }}>
+        }}
+      >
         <img src={largeblob} alt="big blob" className="bigblob" />
         <img src={smallblob} alt="small blob" className="smallblob" />
       </Box>
     </MainContainer>
-  )
+  );
 }
