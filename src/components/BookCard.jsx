@@ -23,12 +23,13 @@ function BookCard({ bookid, title, rating, course, subject, semester }) {
       {/* Main Card Container */}
       <Box
         sx={{
-          backgroundColor: "rgba(219, 239, 220, 1)",
+          backgroundColor: "rgba(46, 125, 50, 0.1)",
           width: "40rem",
           borderRadius: "15px",
           height: "300px",
           padding: "1.5rem",
           boxShadow: "1px 5px 10px 1px gray",
+          backdropFilter: "blur(3px)",
         }}
       >
         <Stack
