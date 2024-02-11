@@ -1,9 +1,13 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import MainContainer from "../components/MainContainer"
 import Sidebar from "../components/Sidebar"
 import ThemedButton from "../components/Button"
 import TestImage from "../assets/test.jpg"
 import imageNotFound from "../assets/imageNotFound.jpg"
+import { collection, getDocs, doc, addDoc } from "@firebase/firestore"
+import { db, auth } from "../firebase"
+import { toast } from "react-toastify"
+import { useNavigate } from "react-router-dom"
 
 import {
   Box,
@@ -16,6 +20,8 @@ import {
   Button,
   ImageList,
   ImageListItem,
+  FormControl,
+  InputLabel,
 } from "@mui/material"
 
 import VolunteerActivismTwoToneIcon from "@mui/icons-material/VolunteerActivismTwoTone"
@@ -65,6 +71,74 @@ const blankImageStyle = {
 
 export default function Donate() {
   const [selectedImages, setSelectedImages] = useState([0, 0, 0, 0, 0, 0])
+
+  const [subjectsinDb, setSubjectsInDb] = useState([])
+  const [coursesInDb, setCoursesInDb] = useState([])
+  const [semestersInDb, setSemestersInDb] = useState([])
+
+  const [bookTitle, setBookTitle] = useState("")
+  const [subject, setSubject] = useState("")
+  const [semester, setSemester] = useState("")
+  const [course, setCourse] = useState("")
+  const [bookCondition, setBookCondition] = useState(0)
+
+  // Use for navigation
+  const navigator = useNavigate()
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const docsSnapshot = await getDocs(collection(db, "courses"))
+      const coursesInDb = docsSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }))
+
+      const subjectsSnapshot = await getDocs(collection(db, "subjects"))
+      const subjectsInDb = subjectsSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }))
+
+      setCoursesInDb(coursesInDb)
+      setSubjectsInDb(subjectsInDb)
+    }
+
+    fetchData()
+  }, [])
+
+  function handleCourseChange(e) {
+    setCourse(e.target.value)
+    coursesInDb.map((course) => {
+      if (course.code === e.target.value) {
+        setSemestersInDb(course.semesters)
+      }
+    })
+  }
+
+  async function handleBookDonation() {
+    // const newDocRef = doc(db, "books", "somereallyrandom")
+    // const userDocRef = doc(db, "users", auth.currentUser.email)
+    // const newDocData = {
+    //   title: bookTitle,
+    //   course: course,
+    //   subject: subject,
+    //   semester: semester,
+    //   donated: false,
+    //   donationBy: userDocRef,
+    // }
+    await addDoc(collection(db, "books"), {
+      title: bookTitle,
+      course: course,
+      subject: subject,
+      semester: semester,
+      donated: false,
+      donationBy: doc(db, "users", auth.currentUser.email),
+    })
+
+    toast.success("Book listed for donation")
+    navigator("/")
+  }
+
   return (
     <MainContainer>
       <Sidebar />
@@ -78,7 +152,10 @@ export default function Donate() {
           <Typography variant="h4" align="center">
             Take the first step towards supporting a cause
           </Typography>
+
+          {/* Box to contain all user input */}
           <Box sx={{ display: "flex", width: "100%", height: "100%" }}>
+            {/* Take input for book name aka title */}
             <Box sx={boxColStyle}>
               <TextField
                 fullWidth
@@ -86,8 +163,11 @@ export default function Donate() {
                 id="book-name"
                 label="Name of the Book"
                 margin="normal"
+                value={bookTitle}
+                onChange={(e) => setBookTitle(e.target.value)}
               />
 
+              {/* Take input for book Subject */}
               <Autocomplete
                 fullWidth
                 autoComplete
@@ -95,41 +175,59 @@ export default function Donate() {
                 clearOnEscape
                 freeSolo={true}
                 required={true}
+                value={""}
                 id="book-subject"
-                options={top100Films}
-                renderInput={(params) => (
-                  <TextField {...params} label="Course / Subject" />
-                )}
+                onChange={(e, value) => setSubject(value)}
+                onInput={(e, value) => setSubject(e.target.value, value)}
+                options={subjectsinDb.map((subject) => subject.name)}
+                renderInput={(params) => <TextField {...params} label="Subject" />}
               />
 
-              <Select
-                value="0"
-                id="book-semester"
-                label="Required in Semester / Trimester"
-                onChange={() => {}}>
-                <MenuItem value={0}>Select Semester / Trimester</MenuItem>
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
+              {/* Course Selection Input */}
+              <FormControl>
+                <InputLabel id="book-course-label">
+                  Used by Course / Department
+                </InputLabel>
+                <Select
+                  id="book-course"
+                  value={course}
+                  onChange={handleCourseChange}
+                  label="Used by Course / Department">
+                  {coursesInDb.map((course, index) => (
+                    <MenuItem key={index} value={course.code}>
+                      {course.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
 
-              <Select
-                value="0"
-                id="book-course"
-                label="Used by Course / Department"
-                onChange={() => {}}>
-                <MenuItem value={0}>Select Course / Department</MenuItem>
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
+              {/* Semester Selection */}
+              <FormControl>
+                <InputLabel id="book-course-label">Used in Semester</InputLabel>
+                <Select
+                  id="book-semester"
+                  label="Required in Semester / Trimester"
+                  value={semester}
+                  onChange={(e) => setSemester(e.target.value)}>
+                  {semestersInDb.map((sem, index) => (
+                    <MenuItem key={index} value={sem}>
+                      {sem}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
 
-              {/* Book condiction Rating */}
+              {/* Book condition Rating */}
               <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
                 <Typography variant="h6" align="center">
-                  Condition: {4}
+                  Select Book Condition: {bookCondition}
                 </Typography>
-                <Rating name="Simple Controlled" value={4} />
+                <Rating
+                  name="Simple Controlled"
+                  value={bookCondition}
+                  precision={0.5}
+                  onChange={(e) => setBookCondition(Number(e.target.value))}
+                />
               </Box>
             </Box>
 
@@ -158,7 +256,7 @@ export default function Donate() {
               </Button>
 
               {/* Needless typography, because why not? */}
-              <Typography variant="p" align="center">
+              <Typography variant="p  " align="center">
                 Your contribution will alleviate climate change and help students in
                 need
               </Typography>
@@ -167,21 +265,25 @@ export default function Donate() {
         </form>
 
         {/* Donate button */}
-        <ThemedButton variant="contained" color="primary" size="large">
+        <ThemedButton
+          variant="contained"
+          color="primary"
+          size="large"
+          onClick={handleBookDonation}>
           Donate Book
+        </ThemedButton>
+
+        <ThemedButton
+          variant="contained"
+          color="primary"
+          size="large"
+          onClick={() => {
+            console.log(auth.currentUser.email)
+            console.log(bookTitle, semester, subject, course, bookCondition)
+          }}>
+          PRINT
         </ThemedButton>
       </Box>
     </MainContainer>
   )
 }
-
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-const top100Films = [
-  { label: "The Shawshank Redemption", year: 1994 },
-  { label: "The Godfather", year: 1972 },
-  { label: "The Godfather: Part II", year: 1974 },
-  { label: "The Dark Knight", year: 2008 },
-  { label: "12 Angry Men", year: 1957 },
-  { label: "Schindler's List", year: 1993 },
-  { label: "Pulp Fiction", year: 1994 },
-]

@@ -21,3 +21,5 @@ export const auth = getAuth(app)
 await setPersistence(auth, browserLocalPersistence)
 export const firestore = getFirestore(app);
 export const database = getDatabase(app)
+// Initialize Cloud Firestore and get a reference to the service
+export const db = getFirestore(app);
