@@ -8,6 +8,9 @@ import { styled } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import Stack from "@mui/material/Stack";
 import Grid from "@mui/material/Grid";
+import { useState } from "react";
+import { db } from "../firebase";
+import { getDocs, collection } from "firebase/firestore";
 
 import MainContainer from "../components/MainContainer";
 import "../Style/homepage.css";
@@ -39,6 +42,18 @@ function Homepage() {
   // If the user is not authenticated, go to /login
   useEffect(() => {
     if (!auth.currentUser) navigator("/login");
+  }, []);
+
+  const [items, setItems] = useState([]);
+  const userCollection = collection(db, "books");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getDocs(userCollection);
+      setItems(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
+
+    fetchData();
   }, []);
 
   return (
@@ -87,42 +102,21 @@ function Homepage() {
             rowSpacing={5}
             columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           >
-            <Grid item xs={6}>
-              <BookCard />
-            </Grid>
-            <Grid item xs={6}>
-              <BookCard />
-            </Grid>
-            <Grid item xs={6}>
-              <BookCard />
-            </Grid>
-            <Grid item xs={6}>
-              <BookCard />
-            </Grid>
-            <Grid item xs={6}>
-              <BookCard />
-            </Grid>
-            <Grid item xs={6}>
-              <BookCard />
-            </Grid>
-            <Grid item xs={6}>
-              <BookCard />
-            </Grid>
-            <Grid item xs={6}>
-              <BookCard />
-            </Grid>
-            <Grid item xs={6}>
-              <BookCard />
-            </Grid>
-            <Grid item xs={6}>
-              <BookCard />
-            </Grid>
-            <Grid item xs={6}>
-              <BookCard />
-            </Grid>
-            <Grid item xs={6}>
-              <BookCard />
-            </Grid>
+            {items.map((item, index) => {
+              return (
+                <Grid item xs={6} key={index}>
+                  <BookCard
+                    // key={index}
+                    title={item.title}
+                    course={item.course}
+                    semester={item.semester}
+                    subject={item.subject}
+                    bookid={item.id}
+                    rating={item.bookCondition}
+                  />
+                </Grid>
+              );
+            })}
           </Grid>
         </Stack>
       </div>

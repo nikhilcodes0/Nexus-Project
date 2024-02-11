@@ -6,6 +6,7 @@ import Chip from "@mui/material/Chip";
 import testImg from "../assets/test.jpg";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
 
 import "../Style/bookcard.css";
 const chipStyles = {
@@ -15,11 +16,11 @@ const chipStyles = {
   },
 };
 
-
-function BookCard() {
+function BookCard({ bookid, title, rating, course, subject, semester }) {
+  console.log(bookid, title, rating, course, subject, semester);
   return (
     <>
-    {/* Main Card Container */}
+      {/* Main Card Container */}
       <Box
         sx={{
           backgroundColor: "rgba(219, 239, 220, 1)",
@@ -50,6 +51,7 @@ function BookCard() {
           <Stack
             sx={{
               padding: "1rem",
+              width: "100%",
             }}
           >
             <Typography
@@ -60,45 +62,51 @@ function BookCard() {
                 textAlign: "left",
               }}
             >
-              Symphony of English Literature
+              {title}
             </Typography>
-            <Stack direction="row" spacing={1} sx={{
-              marginTop: "1rem"
-            }}>
-            <Chip
-            label="BCA" 
-            component="a" 
-            href="#" 
-            clickable 
-            sx={{
-              ...chipStyles
-            }}
-            />
-            <Chip
-              label="General English"
-              component="a"
-              href="#"
-              clickable
+            <Stack
+              direction="row"
+              spacing={1}
               sx={{
-                ...chipStyles
+                marginTop: "1rem",
               }}
-            />
-            <Chip
-              label="IV Sem"
-              component="a"
-              href="#"
-              clickable
-              sx={{
-                ...chipStyles
-              }}
-            />
+            >
+              <Chip
+                label={course.toUpperCase()}
+                component="a"
+                href="#"
+                clickable
+                sx={{
+                  ...chipStyles,
+                }}
+              />
+              <Chip
+                label={subject}
+                component="a"
+                href="#"
+                clickable
+                sx={{
+                  ...chipStyles,
+                }}
+              />
+              <Chip
+                label={semester}
+                component="a"
+                href="#"
+                clickable
+                sx={{
+                  ...chipStyles,
+                }}
+              />
             </Stack>
-            <Rating 
-            name="size-large" 
-            defaultValue={0} 
-            size="large"
+            <Rating
+              name="size-large"
+              value={rating}
+              size="large"
+              readOnly
+              precision={0.5}
               sx={{
-                marginTop: "1rem"
+                marginTop: "1rem",
               }}
             />
             <Button
@@ -114,7 +122,12 @@ function BookCard() {
                 },
               }}
             >
-              View More
+              <Link
+                to={`books/${bookid}`}
+                style={{ color: "white", textDecoration: "none" }}
+              >
+                View More
+              </Link>
             </Button>
           </Stack>
         </Stack>
