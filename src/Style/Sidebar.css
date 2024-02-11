@@ -5,10 +5,11 @@
   justify-content: space-between;
   padding: 4rem 0;
   align-items: center;
-  width: 300px;
+  width: 17.5vw;
   height: 100vh;
   background-color: rgba(46, 125, 50, 0.05);
   backdrop-filter: blur(2px);
+  position: fixed;
 }
 
 .sidebar-logo {
@@ -34,7 +35,8 @@
   border-radius: 0.5rem;
 }
 
-.sidebar-link:hover, .active {
+.sidebar-link:hover,
+.active {
   color: white;
   background-color: #008080;
 }
