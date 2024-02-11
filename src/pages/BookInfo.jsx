@@ -1,52 +1,62 @@
-import { useParams } from "react-router-dom"
-import Sidebar from "../components/Sidebar"
-import { Box, Rating, Typography, TextField } from "@mui/material"
-import MainContainer from "../components/MainContainer"
-import TestImage from "../assets/test.jpg"
-import ThemedButton from "../components/Button"
-
-import { Chip } from "@mui/material"
-import { useEffect } from "react"
-import { getDoc } from "@firebase/firestore"
-import { doc } from "@firebase/firestore"
-import { useState } from "react"
-import { db } from "../firebase"
+import { useParams } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
+import { Box, Rating, Typography, TextField } from "@mui/material";
+import MainContainer from "../components/MainContainer";
+import TestImage from "../assets/test.jpg";
+import ThemedButton from "../components/Button";
+import Drawer from "@mui/material/Drawer";
+import { Chip } from "@mui/material";
+import { useEffect } from "react";
+import { getDoc } from "@firebase/firestore";
+import { doc } from "@firebase/firestore";
+import { useState } from "react";
+import { db } from "../firebase";
+import Avatar from "@mui/material/Avatar";
 
 const bookInfoMainStyle = {
   marginLeft: "21rem",
   display: "flex",
   gap: "2rem",
   padding: "2rem 4rem",
-}
+};
 
 const bookInfoStyle = {
   width: "60vw",
   display: "flex",
   flexDirection: "column",
   gap: "2rem",
-}
+};
 
-const donorInfoDrawerStyle = { width: "20vw" }
+const donorInfoDrawerStyle = {
+  width: "20vw",
+  display: "flex",
+  flexDirection: "column",
+  borderRadius: "1rem",
+  height: "100%",
+  justifyContent: "center",
+  alignItems: "center",
+};
 
 const bookDetailStyle = {
   display: "flex",
   height: "60vh",
   gap: "2rem",
-}
+};
 
 export default function BookInfo() {
-  const { bookId } = useParams()
-  const [bookInfo, setBookInfo] = useState({})
+  const { bookId } = useParams();
+  const [bookInfo, setBookInfo] = useState({});
+  const [donorInfo, setDonorInfo] = useState(false);
 
   useEffect(() => {
     async function getBookInfo() {
-      const bookInfo = await getDoc(doc(db, "books", bookId))
-      setBookInfo({ ...bookInfo.data(), id: bookInfo.id })
+      const bookInfo = await getDoc(doc(db, "books", bookId));
+      setBookInfo({ ...bookInfo.data(), id: bookInfo.id });
     }
 
-    getBookInfo()
+    getBookInfo();
     // console.log(bookInfo)
-  }, [])
+  }, []);
 
   return (
     <MainContainer>
@@ -65,7 +75,8 @@ export default function BookInfo() {
                 display: "flex",
                 justifyContent: "center",
                 flexDirection: "column",
-              }}>
+              }}
+            >
               <img
                 src={TestImage}
                 alt="book-image"
@@ -85,7 +96,8 @@ export default function BookInfo() {
                   fontFamily: "Montserrat",
                   fontWeight: 500,
                   padding: "3rem 0 0 0",
-                }}>
+                }}
+              >
                 {bookInfo.title}
               </Typography>
 
@@ -95,14 +107,22 @@ export default function BookInfo() {
                   display: "flex",
                   gap: "1rem",
                   padding: "1.5rem 0",
-                }}>
+                }}
+              >
                 <Chip label={bookInfo.subject} color="warning" />
                 <Chip label={bookInfo.semester} color="secondary" />
-                <Chip label={bookInfo.course?.toUpperCase()} color="secondary" />
+                <Chip
+                  label={bookInfo.course?.toUpperCase()}
+                  color="secondary"
+                />
               </Box>
 
               {/*  */}
-              <Typography variant="h6" fontWeight={600} color="rgba(0, 0, 0, 0.6)">
+              <Typography
+                variant="h6"
+                fontWeight={600}
+                color="rgba(0, 0, 0, 0.6)"
+              >
                 Condition
               </Typography>
 
@@ -129,7 +149,10 @@ export default function BookInfo() {
                 }}
               />
 
-              <ThemedButton sx={{ padding: "0.5rem 4rem", margin: "2rem 0" }}>
+              <ThemedButton
+                sx={{ padding: "0.5rem 4rem", margin: "2rem 0" }}
+                onClick={() => setDonorInfo(true)}
+              >
                 <Typography variant="h6" fontFamily={"Montserrat"}>
                   Get Contact
                 </Typography>
@@ -144,10 +167,42 @@ export default function BookInfo() {
 
         {/* COLUMN */}
         {/* The sidebar will go here */}
-        <Box sx={donorInfoDrawerStyle}>
-          <h1>Donor Info</h1>
-        </Box>
+        <Drawer
+          anchor="right"
+          open={donorInfo}
+          onClose={() => setDonorInfo(false)}
+        >
+          <Box sx={donorInfoDrawerStyle}>
+            <Avatar
+              sx={{
+                width: "10rem",
+                height: "10rem",
+                fontSize: "4rem",
+                backgroundColor: "green",
+                margin: "2rem auto",
+              }}
+            >
+              S
+            </Avatar>
+            <Typography
+              variant="h3"
+              sx={{
+                textAlign: "center",
+                margin: "4rem auto 2rem auto",
+              }}
+            >
+              Shakir Ali
+            </Typography>
+            <Typography
+              variant="subtitle1"
+              fontWeight={600}
+              sx={{ textAlign: "center" }}
+            >
+              {bookInfo.donationBy}
+            </Typography>
+          </Box>
+        </Drawer>
       </Box>
     </MainContainer>
-  )
+  );
 }
