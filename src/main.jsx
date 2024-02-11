@@ -11,6 +11,7 @@ import Homepage from "./pages/Homepage.jsx"
 import Donate from "./pages/Donate.jsx"
 import Watching from "./pages/Watching.jsx"
 import Profile from "./pages/Profile.jsx"
+import BookInfo from "./pages/BookInfo.jsx"
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -18,6 +19,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Homepage />} />
+        <Route path="/books" element={<Homepage />} />
+        <Route path="/books/:bookId" element={<BookInfo />} />
         <Route path="/login" element={<Login />} />
         <Route path="/donate" element={<Donate />} />
         <Route path="/watching" element={<Watching />} />

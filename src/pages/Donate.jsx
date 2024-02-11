@@ -124,6 +124,7 @@ export default function Donate() {
       subject: subject,
       semester: semester,
       donated: false,
+      bookCondition: bookCondition,
       donationBy: doc(db, "users", auth.currentUser.email),
     })
 
