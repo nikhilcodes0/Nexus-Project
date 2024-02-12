@@ -113,6 +113,7 @@ function Homepage() {
                     subject={item.subject}
                     bookid={item.id}
                     rating={item.bookCondition}
+                    coverImage={item.bookImages[0] || "https://via.placeholder.com/150"}
                   />
                 </Grid>
               );
