@@ -45,7 +45,7 @@ function BookCard({ bookid, title, rating, course, subject, semester, coverImage
               boxShadow: "1px 1px 26px 1px gray",
             }}
           >
-            <img src={coverImage} alt="Book Image" className="bookimg" />
+            <img src={testImg} alt="Book Image" className="bookimg" />
           </Box>
           {/* Book Content Container */}
           <Stack
