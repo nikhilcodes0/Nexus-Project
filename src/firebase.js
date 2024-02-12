@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "@firebase/firestore";
 import { browserLocalPersistence, getAuth, setPersistence } from "firebase/auth";
 import { getDatabase } from "firebase/database"
+import {getStorage} from "firebase/storage"
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -21,5 +22,8 @@ export const auth = getAuth(app)
 await setPersistence(auth, browserLocalPersistence)
 export const firestore = getFirestore(app);
 export const database = getDatabase(app)
+
 // Initialize Cloud Firestore and get a reference to the service
 export const db = getFirestore(app);
+
+export const storage = getStorage();

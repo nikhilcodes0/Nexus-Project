@@ -17,7 +17,6 @@ const chipStyles = {
 };
 
 function BookCard({ bookid, title, rating, course, subject, semester }) {
-  console.log(bookid, title, rating, course, subject, semester);
   return (
     <>
       {/* Main Card Container */}

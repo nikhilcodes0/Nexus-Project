@@ -1,13 +1,14 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import MainContainer from "../components/MainContainer"
 import Sidebar from "../components/Sidebar"
 import ThemedButton from "../components/Button"
-import TestImage from "../assets/test.jpg"
 import imageNotFound from "../assets/imageNotFound.jpg"
 import { collection, getDocs, doc, addDoc } from "@firebase/firestore"
-import { db, auth } from "../firebase"
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
+import { db, auth, storage } from "../firebase"
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
+import { v4 } from "uuid"
 
 import {
   Box,
@@ -59,7 +60,6 @@ const formStyle = {
 const boxColStyle = {
   height: "100%",
   display: "flex",
-  flexGrow: 1,
   flexDirection: "column",
   flexWrap: "wrap",
   justifyContent: "space-around",
@@ -72,7 +72,7 @@ const blankImageStyle = {
 }
 
 export default function Donate() {
-  const [selectedImages, setSelectedImages] = useState([0, 0, 0, 0, 0, 0])
+  const [selectedImages, setSelectedImages] = useState([])
 
   const [subjectsinDb, setSubjectsInDb] = useState([])
   const [coursesInDb, setCoursesInDb] = useState([])
@@ -83,9 +83,41 @@ export default function Donate() {
   const [semester, setSemester] = useState("")
   const [course, setCourse] = useState("")
   const [bookCondition, setBookCondition] = useState(0)
+  const [uploadedImageUrls, setUploadedImageUrls] = useState([])
+
+  const selectImageBtnRef = useRef(null)
 
   // Use for navigation
   const navigator = useNavigate()
+
+  const handleImageSelection = (e) => {
+    const selectedFiles = e.target.files
+    const newImagesArray = []
+
+    for (let i = 0; i < selectedFiles.length; i++) {
+      const file = selectedFiles[i]
+      const reader = new FileReader()
+
+      reader.onload = (event) => {
+        newImagesArray.push(event.target.result)
+        if (newImagesArray.length === selectedFiles.length) {
+          setSelectedImages(newImagesArray)
+          // console.log(newImagesArray[0])
+        }
+      }
+
+      reader.readAsDataURL(file)
+    }
+  }
+
+  async function handleImageUpload() {
+    if (selectedImages.length === 0) {
+      selectImageBtnRef.current.click()
+    } else {
+      console.log(selectedImages[0])
+      setSelectedImages([])
+    }
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -118,18 +150,33 @@ export default function Donate() {
   }
 
   async function handleBookDonation() {
-    await addDoc(collection(db, "books"), {
-      title: bookTitle,
-      course: course,
-      subject: subject,
-      semester: semester,
-      donated: false,
-      bookCondition: bookCondition,
-      donationBy: doc(db, "users", auth.currentUser.email),
-    })
+    try {
+      const uploadedUrls = await Promise.all(
+        selectedImages.map(async (image) => {
+          const storageRef = ref(storage, `bookImages/${v4()}`)
+          await uploadBytes(storageRef, image)
+          const downloadURL = await getDownloadURL(storageRef)
+          return downloadURL
+        })
+      )
 
-    toast.success("Book listed for donation")
-    navigator("/")
+      await addDoc(collection(db, "books"), {
+        title: bookTitle,
+        course: course,
+        subject: subject,
+        semester: semester,
+        donated: false,
+        bookCondition: bookCondition,
+        donationBy: doc(db, "users", auth.currentUser.email),
+        bookImages: uploadedUrls,
+      })
+
+      toast.success("Book listed for donation")
+      navigator("/")
+    } catch (error) {
+      console.error("Error uploading images or adding book:", error)
+      // Handle error
+    }
   }
 
   return (
@@ -156,7 +203,7 @@ export default function Donate() {
           {/* Box to contain all user input */}
           <Box sx={{ display: "flex", width: "100%", height: "100%" }}>
             {/* Take input for book name aka title */}
-            <Box sx={boxColStyle}>
+            <Box sx={{ ...boxColStyle, width: "60%" }}>
               <TextField
                 fullWidth
                 required
@@ -233,12 +280,18 @@ export default function Donate() {
             </Box>
 
             {/* Container for displaying uploaded images */}
-            <Box sx={{ ...boxColStyle, alignItems: "center" }}>
+            <Box
+              sx={{
+                ...boxColStyle,
+                width: "50%",
+                alignItems: "center",
+                // boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+              }}>
               {selectedImages.length ? (
                 <ImageList sx={{ width: 500, height: 450 }} cols={3}>
                   {selectedImages.map((item, index) => (
                     <ImageListItem key={index}>
-                      <img src={TestImage} />
+                      <img src={item} style={{ objectFit: "contain" }} />
                     </ImageListItem>
                   ))}
                 </ImageList>
@@ -248,10 +301,18 @@ export default function Donate() {
               {/* Image List */}
 
               {/* Button for selecting and clearing images */}
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                hidden
+                ref={selectImageBtnRef}
+                onChange={handleImageSelection}
+              />
               <Button
                 variant="contained"
                 color={selectedImages.length ? "error" : "primary"}
-                onClick={() => setSelectedImages([])}
+                onClick={handleImageUpload}
                 sx={{ width: "max-content" }}>
                 {selectedImages.length ? "Clear Selection" : "Select Image files"}
               </Button>
