@@ -261,7 +261,7 @@ export default function BookInfo() {
               fontWeight={600}
               sx={{ textAlign: "center" }}
             >
-              {bookInfo.donationBy}
+              {/* {bookInfo.donationBy}  */} 21bcae35@kristujayanti.com
             </Typography>
           </Box>
         </Drawer>
