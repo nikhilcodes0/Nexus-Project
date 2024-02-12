@@ -12,6 +12,8 @@ import { doc } from "@firebase/firestore";
 import { useState } from "react";
 import { db } from "../firebase";
 import Avatar from "@mui/material/Avatar";
+import ImageList from "@mui/material/ImageList";
+import ImageListItem from "@mui/material/ImageListItem";
 
 const bookInfoMainStyle = {
   marginLeft: "21rem",
@@ -160,8 +162,33 @@ export default function BookInfo() {
             </Box>
           </Box>
 
-          <Box sx={{ backgroundColor: "lightslategrey", height: "25vh" }}>
-            <p>Hello World</p>
+          <Box
+            sx={{
+              backgroundColor: "lightslategrey",
+              height: "25vh",
+              overflowX: "scroll",
+              overflowY: "hidden",
+            }}
+          >
+            <ImageList
+              cols={4}
+              sx={{
+                objectFit: "contain",
+              }}
+            >
+              <ImageListItem>
+                <img src={TestImage} alt="" />
+              </ImageListItem>
+              <ImageListItem>
+                <img src={TestImage} alt="" />
+              </ImageListItem>
+              <ImageListItem>
+                <img src={TestImage} alt="" />
+              </ImageListItem>
+              <ImageListItem>
+                <img src={TestImage} alt="" />
+              </ImageListItem>
+            </ImageList>
           </Box>
         </Box>
 
