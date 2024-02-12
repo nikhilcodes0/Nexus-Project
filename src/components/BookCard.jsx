@@ -16,7 +16,7 @@ const chipStyles = {
   },
 };
 
-function BookCard({ bookid, title, rating, course, subject, semester }) {
+function BookCard({ bookid, title, rating, course, subject, semester, coverImage }) {
   return (
     <>
       {/* Main Card Container */}
@@ -45,7 +45,7 @@ function BookCard({ bookid, title, rating, course, subject, semester }) {
               boxShadow: "1px 1px 26px 1px gray",
             }}
           >
-            <img src={testImg} alt="Book Image" className="bookimg" />
+            <img src={coverImage} alt="Book Image" className="bookimg" />
           </Box>
           {/* Book Content Container */}
           <Stack
