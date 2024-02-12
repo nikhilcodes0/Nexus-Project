@@ -15,6 +15,7 @@ import Avatar from "@mui/material/Avatar";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 
+import "../Style/bookcard.css";
 const bookInfoMainStyle = {
   marginLeft: "21rem",
   display: "flex",
@@ -164,29 +165,64 @@ export default function BookInfo() {
 
           <Box
             sx={{
-              backgroundColor: "lightslategrey",
-              height: "25vh",
               overflowX: "scroll",
               overflowY: "hidden",
+              height: "45vh",
             }}
           >
             <ImageList
               cols={4}
               sx={{
-                objectFit: "contain",
+                // objectFit: "contain",
+                height: "inherit",
+                gap: "15px",
+                overflowX: "scroll",
+                overflowY: "hidden",
+                display: "flex",
+                width: "75vw",
               }}
             >
-              <ImageListItem>
-                <img src={TestImage} alt="" />
+              <ImageListItem
+                sx={{
+                  height: "inherit",
+                }}
+              >
+                <img src={TestImage} alt="" className="imageStack" />
               </ImageListItem>
-              <ImageListItem>
-                <img src={TestImage} alt="" />
+              <ImageListItem
+                sx={{
+                  height: "inherit",
+                }}
+              >
+                <img src={TestImage} alt="" className="imageStack" />
               </ImageListItem>
-              <ImageListItem>
-                <img src={TestImage} alt="" />
+              <ImageListItem
+                sx={{
+                  height: "inherit",
+                }}
+              >
+                <img src={TestImage} alt="" className="imageStack" />
               </ImageListItem>
-              <ImageListItem>
-                <img src={TestImage} alt="" />
+              <ImageListItem
+                sx={{
+                  height: "inherit",
+                }}
+              >
+                <img src={TestImage} alt="" className="imageStack" />
+              </ImageListItem>
+              <ImageListItem
+                sx={{
+                  height: "inherit",
+                }}
+              >
+                <img src={TestImage} alt="" className="imageStack" />
+              </ImageListItem>
+              <ImageListItem
+                sx={{
+                  height: "inherit",
+                }}
+              >
+                <img src={TestImage} alt="" className="imageStack" />
               </ImageListItem>
             </ImageList>
           </Box>
