@@ -6,13 +6,13 @@ import {getStorage} from "firebase/storage"
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDDonlBawaruOyQdAwEvSZQzB8p56Oshw8",
-  authDomain: "ecotexts-35879.firebaseapp.com",
-  projectId: "ecotexts-35879",
-  storageBucket: "ecotexts-35879.appspot.com",
-  messagingSenderId: "1008385910193",
-  appId: "1:1008385910193:web:b0d7554d3cc6cf66270990",
-  databaseURL: "https://ecotexts-35879-default-rtdb.firebaseio.com/"
+  apiKey: "AIzaSyBx_kZN6uXgq_fvXwKwlqE4MEegvBvQLsw",
+  authDomain: "ecotexts-2c419.firebaseapp.com",
+  projectId: "ecotexts-2c419",
+  storageBucket: "ecotexts-2c419.firebasestorage.app",
+  messagingSenderId: "563843615861",
+  appId: "1:563843615861:web:195c8ec2f9ca3cf36b3c3c",
+  measurementId: "G-T8T18PYN6S"
 };
 
 
