@@ -12,6 +12,7 @@ const mainContainer = styled(Container)`
   & @media (min-width: 1200px) {
     & .MuiContainer-root {
       max-width: 100%;
+      overflow: hidden;
     }
   }
 `;

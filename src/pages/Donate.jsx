@@ -151,15 +151,6 @@ export default function Donate() {
 
   async function handleBookDonation() {
     try {
-      const uploadedUrls = await Promise.all(
-        selectedImages.map(async (image) => {
-          const storageRef = ref(storage, `bookImages/${v4()}`)
-          await uploadBytes(storageRef, image)
-          const downloadURL = await getDownloadURL(storageRef)
-          return downloadURL
-        })
-      )
-
       await addDoc(collection(db, "books"), {
         title: bookTitle,
         course: course,
@@ -168,13 +159,13 @@ export default function Donate() {
         donated: false,
         bookCondition: bookCondition,
         donationBy: doc(db, "users", auth.currentUser.email),
-        bookImages: uploadedUrls,
+        bookImages: ["https://via.placeholder.com/150"], // Always use the default image
       })
 
       toast.success("Book listed for donation")
       navigator("/")
     } catch (error) {
-      console.error("Error uploading images or adding book:", error)
+      console.error("Error adding book:", error)
       // Handle error
     }
   }

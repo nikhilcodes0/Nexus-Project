@@ -11,9 +11,37 @@ import EditIcon from "@mui/icons-material/Edit";
 
 import "../Style/profile.css";
 import MainContainer from "../components/MainContainer";
+import { useState, useEffect } from "react";
+import { auth, db } from "../firebase";
+import { getDoc, doc } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 
 export default function Profile() {
+
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (userAuth) => {
+      if (userAuth) {
+        console.log("Current user email:", userAuth.email);
+        const userDoc = await getDoc(doc(db, "users", userAuth.email));
+        setUser(userDoc.data());
+      } else {
+        console.log("No user is currently logged in.");
+        setUser(null);
+      }
+    });
+
+    // Cleanup the listener on unmount
+    return () => unsubscribe();
+  }, []);
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
   return (
+    <div className="overflow-hidden">
     <MainContainer>
       <Sidebar />
       <Box
@@ -46,7 +74,7 @@ export default function Profile() {
               margin: "4rem auto 2rem auto",
             }}
           >
-            Hi, Mys7erio
+            Hi, {user.fullname}
           </Typography>
           <Stack
             direction="row"
@@ -110,7 +138,7 @@ export default function Profile() {
               >
                 Full Name:
               </Typography>
-              <Typography variant="h6">Shakir Ali</Typography>
+              <Typography variant="h6">{user.fullname}</Typography>
             </Stack>
             <Stack
               direction="row"
@@ -164,7 +192,7 @@ export default function Profile() {
                   boxShadow: "0px 4px 4px 0px rgb(0 0 0 / 25%)",
                 }}
               >
-                BCA
+                {user.course}
               </Typography>
             </Stack>
             <Stack spacing={2}>
@@ -194,7 +222,7 @@ export default function Profile() {
                   textAlign: "center",
                 }}
               >
-                IV
+                {user.semester}
               </Typography>
             </Stack>
             <Stack
@@ -229,7 +257,7 @@ export default function Profile() {
                   textAlign: "center",
                 }}
               >
-                KJC
+                {user.college}
               </Typography>
             </Stack>
           </Stack>
@@ -247,5 +275,6 @@ export default function Profile() {
         <img src={smallblob} alt="small blob" className="smallblob" />
       </Box>
     </MainContainer>
+    </div>
   );
 }

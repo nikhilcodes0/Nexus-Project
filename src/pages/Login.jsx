@@ -28,6 +28,8 @@ import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import SchoolIcon from "@mui/icons-material/School";
 import Select from "@mui/material/Select";
+import { setDoc, doc } from "firebase/firestore";
+import { db } from "../firebase"; // Make sure this is your Firestore instance
 
 const SubmitButton = styled(Button)({
   backgroundColor: "#008080",
@@ -105,7 +107,7 @@ function Login() {
           semester: semester,
           last_login: Date.now(),
         };
-        set(ref(database, "users/" + user.uid), user_data);
+        await setDoc(doc(db, "users", user.email), user_data);
         setAction("Sign In");
         setPassword("");
       } catch (error) {
